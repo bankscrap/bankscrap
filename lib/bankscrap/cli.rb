@@ -1,28 +1,29 @@
 require 'thor'
 
 module BankScrap
-  	class Cli < Thor
+  class Cli < Thor
 
-  	 	desc "balance BANK", "get account's balance"
-	    option :user, default: ENV['USER']
-	    option :password, default: ENV['PASSWORD']
-	    option :debug, default: false
+    desc "balance BANK", "get account's balance"
+    option :user, default: ENV['USER']
+    option :password, default: ENV['PASSWORD']
+    option :debug, default: false
 
-	    def balance(bank)
+    def balance(bank)
 
-			@user = options[:user]
-			@password = options[:password]
-			@debug = options[:debug]
+      @user = options[:user]
+      @password = options[:password]
+      @debug = options[:debug]
 
-			#TODO: Check if bank exists			
-			bank_class = Object.const_get(bank)
+      bank_class = Object.const_get(bank)
 
-			@client = bank_class.new(@user, @password, debug: @debug)
+      @client = bank_class.new(@user, @password, debug: @debug)
 
-	      	balance = @client.get_balance
+      balance = @client.get_balance
 
-	      	puts "Balance: #{balance}"
-	    end
-
+      puts "Balance: #{balance}"
+    rescue NameError
+      puts "Invalid bank: #{bank}"
     end
+
+  end
 end
