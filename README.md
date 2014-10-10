@@ -1,6 +1,17 @@
 # Bankscrap
 
-TODO: Write a gem description
+Ruby gem to extract balance and transactions from banks. You can use it either as command line tool or as a library.
+
+The aim of this project is to build a library which interacts with some of the most used banks. We already know how boring is to look for your balance on the web, so let's do it with the command line.
+
+Feel free to contribute and add your bank if it isn't supported.
+
+## Supported banks
+- Bankinter
+
+## Requirements
+
+Some banks needs a JavaScript runtime in order to work. So if you find an error like "Could not find JavasScript runtime" try to install one. It has been tested with nodejs.
 
 ## Installation
 
@@ -20,7 +31,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Retrieve balance account
+
+    $ bank_scrap balance BANK_NAME --user YOUR_USER --password YOUR_PASSWORD
+
+
+If you don't want to pass your user and password everytime you can define them in your environment profile (.bashrc,.bash_profile,/etc/profile...)
+
+    export BBVA_USER=YOUR_BBVA_USER
+    export BBVA_PASSWORD=YOUR_BBVA_USER
 
 ## Contributing
 
@@ -29,3 +48,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Thanks
+
+Thanks to Javier Cuevas (@javiercr) for his Bbva gem.
