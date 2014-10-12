@@ -35,12 +35,6 @@ Retrieve balance account
 
     $ bank_scrap balance BANK_NAME --user YOUR_USER --password YOUR_PASSWORD
 
-
-If you don't want to pass your user and password everytime you can define them in your environment profile (.bashrc,.bash_profile,/etc/profile...)
-
-    export BBVA_USER=YOUR_BBVA_USER
-    export BBVA_PASSWORD=YOUR_BBVA_USER
-
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/bankscrap/fork )
