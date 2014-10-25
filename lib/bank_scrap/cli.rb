@@ -14,7 +14,7 @@ module BankScrap
       @password = options[:password]
       @debug = options[:debug]
 
-      bank_class = Object.const_get(bank)
+      bank_class = Object.const_get("BankScrap::" + bank)
 
       @client = bank_class.new(@user, @password, debug: @debug)
 
@@ -24,6 +24,5 @@ module BankScrap
     rescue NameError
       puts "Invalid bank: #{bank}"
     end
-
   end
 end
