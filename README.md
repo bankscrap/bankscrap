@@ -2,13 +2,23 @@
 
 Ruby gem to extract balance and transactions from banks. You can use it either as command line tool or as a library.
 
-The aim of this project is to build a library which interacts with some of the most used banks. We already know how boring is to look for your balance on the web, so let's do it with the command line.
-
 Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
 - Bankinter
 - BBVA
+
+## Background and motivation
+
+Most banks don't offer public APIs and the only way to access to your data (balance and transactions) is through their websites... and most bank websites are a f*cking nightmare.
+
+We are developers and we don't want to waste time doing things we are able to automate. Having to perform 20 clicks in an awful website just to check how much money we have is not something we like.
+
+There are two approaches to solve this problem: 
+- Web scraping on the bank's site.
+- Reverse engineering the bank's mobile app to use the same API the app uses.
+
+Bankscrap uses both methods depending on the bank.
 
 ## Requirements
 
@@ -16,19 +26,21 @@ Some banks needs a JavaScript runtime in order to work. So if you find an error 
 
 ## Installation
 
-Add this line to your application's Gemfile:
+### From Git
 
-```ruby
-gem 'bank_scrap'
-```
+You can check out the latest source from git:
 
-And then execute:
+    git clone git://github.com/ismaGNU/bank_scrap
 
-    $ bundle
+### From RubyGems
 
-Or install it yourself as:
+Installation from RubyGems:
 
-    $ gem install bank_scrap
+    gem install bank_scrap
+
+Or, if you're using Bundler, just add the following to your Gemfile:
+
+    gem 'bank_scrap'
 
 ## Usage
 
@@ -40,7 +52,7 @@ BANK_NAME should be in underscore case (`bankinter`, `bbva`).
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/bankscrap/fork )
+1. Fork it ( https://github.com/ismaGNU/bank_scrap/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
