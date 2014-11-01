@@ -49,11 +49,30 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 
 ## Usage
 
+### From terminal
 Retrieve balance account
 
     $ bank_scrap balance BANK_NAME --user YOUR_USER --password YOUR_PASSWORD
 
 BANK_NAME should be in underscore case (`bankinter`, `bbva`).
+
+### From Ruby code
+
+You can also use this gem from your own app as library. To do so first you must initialize a Bankscrapper::Bank object
+
+```ruby
+require 'bank_scrap'
+@bank = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+```
+
+(Replace Bbbva with your own bank)
+
+Now you can fetch your balance:
+
+```ruby
+@bank.get_balance
+```
+
 
 ## Contributing
 
