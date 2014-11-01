@@ -4,6 +4,7 @@ require 'bank_scrap/bank'
 
 # TODO: load banks dynamically
 require 'bank_scrap/banks/bankinter'
+require 'bank_scrap/banks/bbva'
 
 module BankScrap
 end
