@@ -16,13 +16,17 @@ module BankScrap
 
     def post(url, fields)
       @curl.url = url
-      @curl.post(fields)
-
+      curl_fields = fields.collect {|key, value| Curl::PostField.content(key, value)}
+      @curl.post(curl_fields)
       @curl.body_str
     end
 
-    def set_headers(name, value)
+    def set_header(name, value)
       @curl.headers[name] = value 
+    end
+
+    def set_headers(headers)
+      headers.each_with_index { |name, value| set_header(name, value) }
     end
 
     def get_headers
