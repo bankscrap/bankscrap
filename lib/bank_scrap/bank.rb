@@ -18,6 +18,7 @@ module BankScrap
       @curl.url = url
       curl_fields = fields.collect {|key, value| Curl::PostField.content(key, value)}
       @curl.post(curl_fields)
+      debugger
       @curl.body_str
     end
 
@@ -26,7 +27,7 @@ module BankScrap
     end
 
     def set_headers(headers)
-      headers.each_with_index { |name, value| set_header(name, value) }
+      headers.each { |key, value| set_header(key, value) }
     end
 
     def get_headers
