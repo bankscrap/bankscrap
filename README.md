@@ -7,6 +7,8 @@ Feel free to contribute and add your bank if it isn't supported.
 ## Supported banks
 - Bankinter
 - BBVA
+Work in progress:
+- ING
 
 ## Background and motivation
 
