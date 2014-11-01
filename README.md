@@ -6,13 +6,16 @@ Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
 - Bankinter
-- BBVA
+- BBVA (only balance, transactions soon)
+
 Work in progress:
 - ING
 
+Interested in any other bank? Open a new Issue and we'll try to help.
+ 
 ## Background and motivation
 
-Most banks don't offer public APIs and the only way to access to your data (balance and transactions) is through their websites... and most bank websites are a f*cking nightmare.
+Most banks don't offer public APIs and the only way to access your data (balance and transactions) is through their websites... and most bank websites are a f*cking nightmare.
 
 We are developers and we don't want to waste time doing things we are able to automate. Having to perform 20 clicks in an awful website just to check how much money we have is not something we like.
 
