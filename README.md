@@ -8,6 +8,7 @@ Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
 - Bankinter
+- BBVA
 
 ## Requirements
 
@@ -18,7 +19,7 @@ Some banks needs a JavaScript runtime in order to work. So if you find an error 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'bankscrap'
+gem 'bank_scrap'
 ```
 
 And then execute:
@@ -27,13 +28,15 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install bankscrap
+    $ gem install bank_scrap
 
 ## Usage
 
 Retrieve balance account
 
     $ bank_scrap balance BANK_NAME --user YOUR_USER --password YOUR_PASSWORD
+
+BANK_NAME should be in underscore case (`bankinter`, `bbva`).
 
 ## Contributing
 
