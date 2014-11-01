@@ -17,7 +17,6 @@ module BankScrap
       initialize_connection
       parse_html(initialize_cookie(BASE_ENDPOINT + '/'))
       login
-      get_balance
     end
 
     def get_balance
@@ -26,6 +25,22 @@ module BankScrap
           links[0].text
         end
       end
+    end
+
+    def get_transactions
+      response = get(BASE_ENDPOINT + "/mov/es-es/cgi/" + @transactions_endpoint)
+
+      html_doc = Nokogiri::HTML(response)
+
+      html_transactions = html_doc.css('ul#listamovimiento li')
+
+      # puts html_transactions[0]
+      html_transactions.each do |x| 
+        puts x.css('div.fechaimagen span').text
+        puts x.css('div.altoMaximo').text
+        puts x.css('div.importesproductosflecha_md').text
+      end
+
     end
 
     private
@@ -41,6 +56,8 @@ module BankScrap
       response = post(BASE_ENDPOINT + LOGIN_ENDPOINT, fields)
 
       @dashboard_doc = Nokogiri::HTML(response)
+
+      @transactions_endpoint = @dashboard_doc.xpath('//div[@class="floatIzquierdo_md"]/form/@action')[0];
 
     end
 

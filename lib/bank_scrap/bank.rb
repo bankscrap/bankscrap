@@ -7,32 +7,46 @@ module BankScrap
 
     private
 
+    def get(url)
+      @curl.url = url
+      @curl.get
+
+      @curl.body_str
+    end
+
     def post(url, fields)
-    	@curl.url = url
-    	@curl.post(fields)
+      @curl.url = url
+      @curl.post(fields)
 
-    	@curl.body_str
+      @curl.body_str
+    end
 
+    def set_headers(name, value)
+      @curl.headers[name] = value 
+    end
+
+    def get_headers
+      @curl.header_str
     end
 
     def initialize_cookie(url)
-    	log 'Initialize cookie'
+      log 'Initialize cookie'
 
-    	@curl.url = url
-    	@curl.get
+      @curl.url = url
+      @curl.get
 
-    	@curl.body_str
+      @curl.body_str
 
     end 
 
     def initialize_connection
-			@curl = Curl::Easy.new
-			@curl.follow_location = true
-			@curl.ssl_verify_peer = false
-			@curl.verbose = true if @debug
-			@curl.enable_cookies = true
-			@curl.headers["User-Agent"] = WEB_USER_AGENT
-		end
+      @curl = Curl::Easy.new
+      @curl.follow_location = true
+      @curl.ssl_verify_peer = false
+      @curl.verbose = true if @debug
+      @curl.enable_cookies = true
+      @curl.headers["User-Agent"] = WEB_USER_AGENT
+    end
 
     def log(msg)
       puts msg if @log

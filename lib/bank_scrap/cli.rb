@@ -26,5 +26,31 @@ module BankScrap
     rescue NameError
       puts "Invalid bank: #{bank}"
     end
+
+    desc "transactions BANK", "get account's transactions"
+    option :user, default: ENV['USER']
+    option :password,  default: ENV['PASSWORD']
+    option :log, default: false
+    option :debug, default: false
+
+    def transactions(bank)
+
+      @user = options[:user]
+      @password = options[:password]
+      @log = options[:log]
+      @debug = options[:debug]
+
+      bank_class = Object.const_get("BankScrap::" + bank)
+
+      @client = bank_class.new(@user, @password, log: @log, debug: @debug)
+
+      transactions = @client.get_transactions
+
+      # puts "Balance: #{balance}"
+    # rescue NameError
+    #   puts "Invalid bank: #{bank}"
+    end
+
+
   end
 end
