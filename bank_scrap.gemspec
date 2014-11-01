@@ -6,7 +6,7 @@ require 'bank_scrap/version'
 Gem::Specification.new do |spec|
   spec.name          = "bank_scrap"
   spec.version       = BankScrap::VERSION
-  spec.authors       = ["Ismael Sánchez"]
+  spec.authors       = ["Ismael Sánchez", "Javier Cuevas", "Fernando Blat", "Raúl Marcos"]
   spec.email         = ["root@ismagnu.com"]
   spec.summary       = %q{Get your bank account details.}
   spec.description   = %q{Command line tools to get bank account details from some banks.}
