@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'execjs'
   spec.add_dependency 'curb'
-  
+  spec.add_dependency 'activesupport'
 end
