@@ -65,7 +65,7 @@ require 'bank_scrap'
 @bank = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
 ```
 
-(Replace Bbbva with your own bank)
+(Replace Bbva with your own bank)
 
 Now you can fetch your balance:
 
