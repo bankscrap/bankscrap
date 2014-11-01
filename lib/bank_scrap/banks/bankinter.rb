@@ -1,6 +1,4 @@
-require 'faraday'
-require 'faraday-cookie_jar'
-require 'faraday_middleware'
+
 require 'nokogiri'
 require 'execjs'
 
@@ -10,14 +8,16 @@ module BankScrap
     BASE_ENDPOINT = "https://movil.bankinter.es"
     LOGIN_ENDPOINT = "/mov/es-es/cgi/ebkmovil+md+login"
 
-    def initialize(user, password, debug: false)
+    def initialize(user, password, log: false, debug: false)
       @user = user
       @password = password
+      @log = log
       @debug = debug
 
       initialize_connection
-      initialize_cookie
+      parse_html(initialize_cookie(BASE_ENDPOINT + '/'))
       login
+      get_balance
     end
 
     def get_balance
@@ -30,37 +30,18 @@ module BankScrap
 
     private
 
-    def initialize_connection
-      @connection = Faraday.new(url: BASE_ENDPOINT) do |faraday|
-        faraday.request :url_encoded
-        faraday.use :cookie_jar
-        faraday.use FaradayMiddleware::FollowRedirects, limit: 3
-        faraday.adapter Faraday.default_adapter
-      end
-
-      @connection.headers[:user_agent] = USER_AGENT
-    end
-
-    def initialize_cookie
-      log "Initializing cookie"
-      response = @connection.get '/'
-
-      parse_html(response.body)
-    end
-
     def login
-      log 'Bankinter login'
+      fields = [
+          Curl::PostField.content('bkcache',''),
+          Curl::PostField.content('destino', ''),
+          Curl::PostField.content(@id_field, 'username,password,psi'),
+          Curl::PostField.content(@login_field,@login_param)
+      ]
 
-      response = @connection.post LOGIN_ENDPOINT, {
-        :bkcache => '',
-        :destino => '',
-        @id_field => 'username,password,psi',
-        @login_field => @login_param
-      }
+      response = post(BASE_ENDPOINT + LOGIN_ENDPOINT, fields)
 
-      @dashboard_doc = Nokogiri::HTML(response.body)
+      @dashboard_doc = Nokogiri::HTML(response)
 
-      #TODO: Check for sucessfull login
     end
 
     def parse_html(html)

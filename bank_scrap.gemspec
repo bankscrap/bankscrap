@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bankscrap/version'
+require 'bank_scrap/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "bankscrap"
+  spec.name          = "bank_scrap"
   spec.version       = BankScrap::VERSION
   spec.authors       = ["Ismael Sánchez"]
   spec.email         = ["root@ismagnu.com"]
@@ -24,10 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
 
   spec.add_dependency 'thor'
-  spec.add_dependency 'faraday', '0.8.9'
-  spec.add_dependency 'faraday_middleware', '0.9.0'
-  spec.add_dependency 'faraday-cookie_jar', '0.0.4'
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'execjs'
+  spec.add_dependency 'curb'
   
 end
