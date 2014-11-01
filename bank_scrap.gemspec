@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["root@ismagnu.com"]
   spec.summary       = %q{Get your bank account details.}
   spec.description   = %q{Command line tools to get bank account details from some banks.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ismaGNU/bank_scrap"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -23,9 +23,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
 
-  spec.add_dependency 'thor'
-  spec.add_dependency 'nokogiri'
-  spec.add_dependency 'execjs'
-  spec.add_dependency 'curb'
-  spec.add_dependency 'activesupport'
+  spec.add_dependency 'thor', "~> 0.19.1"
+  spec.add_dependency 'nokogiri', "~> 1.6"
+  spec.add_dependency 'execjs', "~> 2.2.2"
+  spec.add_dependency 'curb', "~> 0.8.6"
+  spec.add_dependency 'activesupport', "~> 4.1.7"
 end
