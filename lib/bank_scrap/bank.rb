@@ -16,9 +16,13 @@ module BankScrap
 
     def post(url, fields)
       @curl.url = url
-      curl_fields = fields.collect {|key, value| Curl::PostField.content(key, value)}
-      @curl.post(curl_fields)
-      debugger
+
+      # If hash, transform to Curl::PostField objects
+      if fields.is_a? Hash
+        fields = fields.collect {|key, value| Curl::PostField.content(key, value)}
+      end
+
+      @curl.post(fields)
       @curl.body_str
     end
 
