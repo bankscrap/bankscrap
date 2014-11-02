@@ -5,8 +5,8 @@ module BankScrap
   class Cli < Thor
 
     desc "balance BANK", "get account's balance"
-    option :user, default: ENV['USER']
-    option :password,  default: ENV['PASSWORD']
+    option :user, default: ENV['BANK_SCRAP_USER']
+    option :password,  default: ENV['BANK_SCRAP_PASSWORD']
     option :log, default: false
     option :debug, default: false
     def balance(bank)
@@ -23,8 +23,8 @@ module BankScrap
     end
 
     desc "transactions BANK", "get account's transactions"
-    option :user, default: ENV['USER']
-    option :password,  default: ENV['PASSWORD']
+    option :user, default: ENV['BANK_SCRAP_USER']
+    option :password,  default: ENV['BANK_SCRAP_PASSWORD']
     option :log, default: false
     option :debug, default: false
     def transactions(bank)
