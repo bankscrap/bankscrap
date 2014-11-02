@@ -1,3 +1,5 @@
+require 'json'
+
 module BankScrap
   class Bbva < Bank
     BASE_ENDPOINT    = 'https://bancamovil.grupobbva.com'
