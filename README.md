@@ -5,11 +5,11 @@ Ruby gem to extract balance and transactions from banks. You can use it either a
 Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
-- Bankinter
-- BBVA (only balance, transactions soon)
 
-Work in progress:
-- ING
+|              | Bankinter |  BBVA  | ING Direct |
+|--------------|:---------:|:------:|:----------:|
+|    Balance   |    ✓      |   ✓    |  ✓         |
+| Transactions |    WIP    |  WIP   |  ✘         |
 
 Interested in any other bank? Open a new Issue and we'll try to help.
  
