@@ -26,8 +26,15 @@ module BankScrap
       @curl.body_str
     end
 
+    def put(url, fields)
+      @curl.url = url
+
+      @curl.put(fields)
+      @curl.body_str
+    end
+
     def set_header(name, value)
-      @curl.headers[name] = value 
+      @curl.headers[name] = value
     end
 
     def set_headers(headers)
@@ -45,8 +52,7 @@ module BankScrap
       @curl.get
 
       @curl.body_str
-
-    end 
+    end
 
     def initialize_connection
       @curl = Curl::Easy.new
