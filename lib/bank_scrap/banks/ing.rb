@@ -15,10 +15,10 @@ module BankScrap
     SAMPLE_WIDTH  = 30
     SAMPLE_HEIGHT = 30
 
-    def initialize(dni, birthday, password, log: false, debug: false)
-      @dni      = dni
-      @birthday = birthday
+    def initialize(user, password, log: false, debug: false, extra_args:)
+      @dni      = user
       @password = password.to_s
+      @birthday = extra_args['birthday']
       @log      = log
       @debug    = debug
 
