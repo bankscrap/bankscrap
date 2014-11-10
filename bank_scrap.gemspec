@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'execjs', "~> 2.2"
   spec.add_dependency 'curb', "~> 0.8"
   spec.add_dependency 'activesupport', "~> 4.1"
+  spec.add_dependency 'rmagick', "~> 2.2.2"
 end

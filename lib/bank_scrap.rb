@@ -7,4 +7,5 @@ module BankScrap
   # constant is used for the first time
   autoload :Bankinter,  'bank_scrap/banks/bankinter'
   autoload :Bbva,       'bank_scrap/banks/bbva'
+  autoload :Ing,        'bank_scrap/banks/ing'
 end
