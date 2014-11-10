@@ -1,9 +1,7 @@
-require 'execjs'
 require 'json'
 require 'base64'
 require 'RMagick'
-require 'active_support'
-require 'open-uri'
+require 'tempfile'
 
 module BankScrap
   class Ing < Bank
@@ -45,7 +43,6 @@ module BankScrap
       selected_positions = login
       ticket = pass_pinpad(selected_positions)
       post_auth(ticket)
-      remove_generated_files
     end
 
     def login
@@ -63,13 +60,12 @@ module BankScrap
                 '"device":"desktop"}' +
               '}'
 
-      response = post(LOGIN_ENDPOINT, param)
-      response = JSON.parse(response)
+      response = JSON.parse(post(LOGIN_ENDPOINT, param))
       positions = response['pinPositions']
-      pinpad = response['pinpad']
+      pinpad    = response['pinpad']
 
-      save_pinpad_numbers(pinpad)
-      pinpad_numbers = recognize_pinpad_numbers
+      pinpad_numbers_paths = save_pinpad_numbers(pinpad)
+      pinpad_numbers = recognize_pinpad_numbers(pinpad_numbers_paths)
 
       get_correct_positions(pinpad_numbers, positions)
     end
@@ -95,12 +91,6 @@ module BankScrap
         post(POST_AUTH_ENDPOINT, param)
     end
 
-    def remove_generated_files
-      0.upto(9) do |index|
-        File.delete(build_tmp_path(index))
-      end
-    end
-
     def get_products
       set_headers({
         "Accept"       => '*/*',
@@ -111,25 +101,26 @@ module BankScrap
     end
 
     def save_pinpad_numbers(pinpad)
-      pinpad.each_with_index do |p,index|
-        File.open(build_tmp_path(index), 'wb'){ |f| f.write(Base64.decode64(p)) }
+      pinpad_numbers_paths = []
+      pinpad.each_with_index do |digit,index|
+        tmp = Tempfile.new(["pinpad_number_#{index}__", '.png'])
+        File.open(tmp.path, 'wb'){ |f| f.write(Base64.decode64(digit)) }
+        pinpad_numbers_paths << tmp.path
       end
+
+      pinpad_numbers_paths
     end
 
-    def build_tmp_path(number)
-      "tmp/original_pinpad_#{number}.png"
-    end
-
-    def recognize_pinpad_numbers
+    def recognize_pinpad_numbers(pinpad_numbers_paths)
       pinpad_numbers = []
+      pinpad_images = Magick::ImageList.new(*pinpad_numbers_paths)
       0.upto(9) do |i|
-        pinpad = Magick::ImageList.new(build_tmp_path(i)).first
-
+        single_number = pinpad_images[i]
         differences = []
         0.upto(9) do |j|
-          pinpad_pixels_sample = pinpad.get_pixels(0,0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
+          pinpad_pixels_sample = single_number.get_pixels(0,0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
 
-          img = Magick::ImageList.new("lib/banks/ing/numbers/pinpad#{j}.png").first
+          img = Magick::ImageList.new("lib/bank_scrap/banks/ing/numbers/pinpad#{j}.png").first
           number_pixels_sample = img.get_pixels(0, 0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
           diff = 0
           pinpad_pixels_sample.each_with_index do |pixel, index|
