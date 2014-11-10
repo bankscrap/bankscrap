@@ -9,7 +9,6 @@ module BankScrap
   class Ing < Bank
 
     BASE_ENDPOINT = 'https://ing.ingdirect.es/'
-
     LOGIN_ENDPOINT     = BASE_ENDPOINT + 'genoma_login/rest/session'
     POST_AUTH_ENDPOINT = BASE_ENDPOINT + 'genoma_api/login/auth/response'
     CLIENT_ENDPOINT    = BASE_ENDPOINT + 'genoma_api/rest/client'
@@ -28,8 +27,6 @@ module BankScrap
       initialize_connection
       bundled_login
       get_products
-
-      puts get_balance
     end
 
     def get_balance
@@ -52,6 +49,11 @@ module BankScrap
     end
 
     def login
+      set_headers({
+        "Accept"       => 'application/json, text/javascript, */*; q=0.01',
+        'Content-Type' => 'application/json; charset=utf-8'
+      })
+
       param = '{' +
                 '"loginDocument":{' +
                   '"documentType":0,"document":"' + @dni.to_s +
@@ -60,11 +62,6 @@ module BankScrap
                 '"companyDocument":null,' +
                 '"device":"desktop"}' +
               '}'
-
-      set_headers({
-        "Accept"       => 'application/json, text/javascript, */*; q=0.01',
-        'Content-Type' => 'application/json; charset=utf-8'
-      })
 
       response = post(LOGIN_ENDPOINT, param)
       response = JSON.parse(response)
@@ -132,7 +129,7 @@ module BankScrap
         0.upto(9) do |j|
           pinpad_pixels_sample = pinpad.get_pixels(0,0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
 
-          img = Magick::ImageList.new("numbers/pinpad#{j}.png").first
+          img = Magick::ImageList.new("lib/banks/ing/numbers/pinpad#{j}.png").first
           number_pixels_sample = img.get_pixels(0, 0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
           diff = 0
           pinpad_pixels_sample.each_with_index do |pixel, index|
