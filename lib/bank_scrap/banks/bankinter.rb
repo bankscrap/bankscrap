@@ -7,7 +7,7 @@ module BankScrap
     BASE_ENDPOINT = "https://movil.bankinter.es"
     LOGIN_ENDPOINT = "/mov/es-es/cgi/ebkmovil+md+login"
 
-    def initialize(user, password, log: false, debug: false)
+    def initialize(user, password, log: false, debug: false, extra_args: nil)
       @user = user
       @password = password
       @log = log
