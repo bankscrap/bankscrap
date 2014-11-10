@@ -7,7 +7,7 @@ module BankScrap
     BALANCE_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/products/v1'
     USER_AGENT       = 'Android;LGE;Nexus 5;1080x1776;Android;4.4.4;BMES;4.0.4'
 
-    def initialize(user, password, log: false, debug: false)
+    def initialize(user, password, log: false, debug: false, extra_args: nil)
       @user = format_user(user.dup)
       @password = password
       @log = log
