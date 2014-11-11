@@ -54,7 +54,7 @@ Retrieve balance account
 
 ##### Bankinter
 
-    $ bank_scrap balance bbva --user YOUR_BANKINTER_USER --password YOUR_BANKINTER_PASSWORD
+    $ bank_scrap balance bankinter --user YOUR_BANKINTER_USER --password YOUR_BANKINTER_PASSWORD
 
 ##### BBVA
 
@@ -63,7 +63,7 @@ Retrieve balance account
 ##### ING Direct
 ING needs one more argument: your bithday.
 
-    $ bank_scrap balance Ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
 
