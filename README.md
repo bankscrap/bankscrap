@@ -1,4 +1,4 @@
-# Bankscrap
+# BankScrap
 
 Ruby gem to extract balance and transactions from banks. You can use it either as command line tool or as a library.
 
@@ -23,7 +23,7 @@ There are two approaches to solve this problem:
 - Web scraping on the bank's site.
 - Reverse engineering the bank's mobile app to use the same API the app uses.
 
-Bankscrap uses both methods depending on the bank.
+BankScrap uses both methods depending on the bank.
 
 ## Requirements
 
@@ -63,7 +63,7 @@ If you don't want to pass your user and password everytime you can define them i
 
 ### From Ruby code
 
-You can also use this gem from your own app as library. To do so first you must initialize a Bankscrapper::Bank object
+You can also use this gem from your own app as library. To do so first you must initialize a BankScrap::Bank object
 
 ```ruby
 require 'bank_scrap'
