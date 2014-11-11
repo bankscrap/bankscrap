@@ -54,7 +54,7 @@ Retrieve balance account
 
     $ bank_scrap balance BANK_NAME --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
 
-BANK_NAME should be in underscore case (`bankinter`, `bbva`).
+BANK_NAME should be in underscore case (`bankinter`, `bbva`, `ing').
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
