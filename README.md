@@ -52,10 +52,22 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ### From terminal
 Retrieve balance account
 
-    $ bank_scrap balance BANK_NAME --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
+##### Bankinter
 
-BANK_NAME should be in underscore case (`bankinter`, `bbva`, `ing`).
+    $ bank_scrap balance bbva --user YOUR_BANKINTER_USER --password YOUR_BANKINTER_PASSWORD
 
+##### BBVA
+
+    $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+
+##### ING Direct
+ING needs one more argument: your bithday.
+
+    $ bank_scrap balance Ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+
+Replace 01/01/1980 with your actual birthday.
+
+---
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
     export BANK_SCRAP_USER=YOUR_BANK_USER
