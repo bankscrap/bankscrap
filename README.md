@@ -1,15 +1,15 @@
-# Bankscrap
+# BankScrap
 
 Ruby gem to extract balance and transactions from banks. You can use it either as command line tool or as a library.
 
 Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
-- Bankinter
-- BBVA (only balance, transactions soon)
 
-Work in progress:
-- ING
+|              | Bankinter |  BBVA  | ING Direct |
+|--------------|:---------:|:------:|:----------:|
+|    Balance   |    ✓      |   ✓    |  ✓         |
+| Transactions |    WIP    |  WIP   |  ✘         |
 
 Interested in any other bank? Open a new Issue and we'll try to help.
  
@@ -23,7 +23,7 @@ There are two approaches to solve this problem:
 - Web scraping on the bank's site.
 - Reverse engineering the bank's mobile app to use the same API the app uses.
 
-Bankscrap uses both methods depending on the bank.
+BankScrap uses both methods depending on the bank.
 
 ## Requirements
 
@@ -52,10 +52,22 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ### From terminal
 Retrieve balance account
 
-    $ bank_scrap balance BANK_NAME --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
+##### Bankinter
 
-BANK_NAME should be in underscore case (`bankinter`, `bbva`).
+    $ bank_scrap balance bankinter --user YOUR_BANKINTER_USER --password YOUR_BANKINTER_PASSWORD
 
+##### BBVA
+
+    $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+
+##### ING Direct
+ING needs one more argument: your bithday.
+
+    $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+
+Replace 01/01/1980 with your actual birthday.
+
+---
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
     export BANK_SCRAP_USER=YOUR_BANK_USER
@@ -63,7 +75,7 @@ If you don't want to pass your user and password everytime you can define them i
 
 ### From Ruby code
 
-You can also use this gem from your own app as library. To do so first you must initialize a Bankscrapper::Bank object
+You can also use this gem from your own app as library. To do so first you must initialize a BankScrap::Bank object
 
 ```ruby
 require 'bank_scrap'
