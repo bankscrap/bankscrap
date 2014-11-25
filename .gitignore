@@ -13,5 +13,7 @@
 *.a
 mkmf.log
 
+*.gem
+
 # MAC OS X files
 .DS_Store
