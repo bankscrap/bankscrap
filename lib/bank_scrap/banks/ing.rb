@@ -37,6 +37,10 @@ module BankScrap
       balance
     end
 
+    def raw_product_data
+      @data
+    end
+
     private
 
     def bundled_login
@@ -120,7 +124,7 @@ module BankScrap
         0.upto(9) do |j|
           pinpad_pixels_sample = single_number.get_pixels(0,0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
 
-          img = Magick::ImageList.new("lib/bank_scrap/banks/ing/numbers/pinpad#{j}.png").first
+          img = Magick::ImageList.new(File.join(File.dirname(__FILE__), "/ing/numbers/pinpad#{j}.png")).first
           number_pixels_sample = img.get_pixels(0, 0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
           diff = 0
           pinpad_pixels_sample.each_with_index do |pixel, index|
