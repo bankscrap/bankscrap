@@ -1,6 +1,6 @@
 module BankScrap
   class Account
-    attr_accessor :id, :name, :balance, :currency, 
+    attr_accessor :bank, :id, :name, :balance, :currency, 
                   :available_balance, :description,
                   :transactions, :iban, :bic
     
