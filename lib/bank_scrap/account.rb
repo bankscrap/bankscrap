@@ -7,6 +7,10 @@ module BankScrap
     def initialize(params = {})
       params.each { |key, value| send "#{key}=", value }
     end
+
+    def transactions
+      @transactions ||= bank.fetch_transactions_for(self)
+    end
   end
 end
 
