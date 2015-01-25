@@ -5,7 +5,8 @@ module BankScrap
     BASE_ENDPOINT    = 'https://bancamovil.grupobbva.com'
     LOGIN_ENDPOINT   = '/DFAUTH/slod/DFServletXML'
     BALANCE_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/products/v1'
-    USER_AGENT       = 'Android;LGE;Nexus 5;1080x1776;Android;4.4.4;BMES;4.0.4'
+    # BBVA expects an identifier before the actual User Agent, but 12345 works fine
+    USER_AGENT       = '12345;Android;LGE;Nexus 5;1080x1776;Android;4.4.4;BMES;4.0.4'
 
     def initialize(user, password, log: false, debug: false, extra_args: nil)
       @user = format_user(user.dup)
@@ -24,6 +25,7 @@ module BankScrap
         'Accept-Charset'   => 'UTF-8',
         'Connection'       => 'Keep-Alive',
         'Host'             => 'bancamovil.grupobbva.com',
+        'Cookie2'          => '$Version=1'
       })
 
       login
@@ -31,7 +33,13 @@ module BankScrap
 
     def get_balance
       log 'get_balance'
-      response = post(BASE_ENDPOINT + BALANCE_ENDPOINT, nil)
+      
+      # Even if the required method is an HTTP POST
+      # the API requires a funny header that says is a GET
+      # otherwise the request doesn't work.
+      response = with_headers({'BBVA-Method' => 'GET'}) do
+        post(BASE_ENDPOINT + BALANCE_ENDPOINT, {})
+      end
 
       json = JSON.parse(response)
       json["balances"]["personalAccounts"]
