@@ -10,7 +10,7 @@ module BankScrap
     LOGIN_ENDPOINT     = BASE_ENDPOINT + 'genoma_login/rest/session'
     POST_AUTH_ENDPOINT = BASE_ENDPOINT + 'genoma_api/login/auth/response'
     CLIENT_ENDPOINT    = BASE_ENDPOINT + 'genoma_api/rest/client'
-    PRODUCTS_ENDPOINT  = BASE_ENDPOINT + 'genoma_api/rest/products'
+    ACCOUNTS_ENDPOINT  = BASE_ENDPOINT + 'genoma_api/rest/products'
 
     SAMPLE_WIDTH  = 30
     SAMPLE_HEIGHT = 30
@@ -24,21 +24,54 @@ module BankScrap
 
       initialize_connection
       bundled_login
-      get_products
+
+      super
     end
 
     def get_balance
       log 'get_balance'
-      balance = {}
-      @data.each do |item|
-        balance[item['name']] = item['balance']
+      balances = {}
+      total_balance = 0
+      @accounts.each do |account|
+        balances[account.description] = account.balance
+        total_balance += account.balance
       end
 
-      balance
+      balances['TOTAL'] = total_balance
+      balances
     end
 
-    def raw_product_data
-      @data
+    def raw_accounts_data
+      @raw_accounts_data
+    end
+
+    def fetch_accounts
+      set_headers({
+        "Accept"       => '*/*',
+        'Content-Type' => 'application/json; charset=utf-8'
+      })
+
+      @raw_accounts_data = JSON.parse(get(ACCOUNTS_ENDPOINT))
+
+      @raw_accounts_data.collect do |account|
+        if account['iban']
+          Account.new(
+            bank: self,
+            id: account['uuid'],
+            name: account['name'],
+            balance: account['balance'],
+            currency: 'EUR',
+            available_balance: account['availableBalance'],
+            description: (account['alias'] || account['name']),
+            iban: account['iban'],
+            bic: account['bic']
+          )
+        end
+      end.compact
+    end
+
+    def fetch_transactions_for(account)
+      raise Exception.new('Not implemented yet')
     end
 
     private
@@ -93,15 +126,6 @@ module BankScrap
 
         param = "ticket=#{ticket}&device=desktop"
         post(POST_AUTH_ENDPOINT, param)
-    end
-
-    def get_products
-      set_headers({
-        "Accept"       => '*/*',
-        'Content-Type' => 'application/json; charset=utf-8'
-      })
-
-      @data = JSON.parse(get(PRODUCTS_ENDPOINT))
     end
 
     def save_pinpad_numbers(pinpad)
