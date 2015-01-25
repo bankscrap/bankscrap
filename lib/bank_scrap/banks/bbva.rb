@@ -45,6 +45,7 @@ module BankScrap
       json = JSON.parse(response)
       json["accounts"].collect do |data|
         Account.new(
+          bank: self,
           id: data['id'],
           name: data['name'],
           available_balance: data['availableBalance'],
