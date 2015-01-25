@@ -14,11 +14,11 @@ module BankScrap
     end
 
     def post(url, fields)
-      @http.post(url, fields).body
+      @http.post(url, fields, @headers).body
     end
 
     def put(url, fields)
-      @http.put(url, fields).body
+      @http.put(url, fields, @headers).body
     end
 
     # Sets temporary HTTP headers, execute a code block
@@ -46,7 +46,7 @@ module BankScrap
     end
 
     def initialize_connection
-      @http = Mechanize.new do |mechanize| 
+      @http = Mechanize.new do |mechanize|
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         mechanize.log = Logger.new(STDOUT) if @debug
