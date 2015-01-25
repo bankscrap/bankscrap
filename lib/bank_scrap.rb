@@ -1,6 +1,8 @@
 require 'bank_scrap/version'
 require 'bank_scrap/cli'
 require 'bank_scrap/bank'
+require 'bank_scrap/account'
+require 'bank_scrap/transaction'
 
 module BankScrap
   # autoload only requires the file when the specified
