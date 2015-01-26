@@ -1,4 +1,5 @@
 require 'active_support/all'
+require 'bank_scrap/utils/inspectable'
 require 'bank_scrap/version'
 require 'bank_scrap/cli'
 require 'bank_scrap/bank'
