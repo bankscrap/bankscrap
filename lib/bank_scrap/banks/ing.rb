@@ -56,42 +56,28 @@ module BankScrap
 
       @raw_accounts_data.collect do |account|
         if account['iban']
-          Account.new(
-            bank: self,
-            id: account['uuid'],
-            name: account['name'],
-            balance: account['balance'],
-            currency: 'EUR',
-            available_balance: account['availableBalance'],
-            description: (account['alias'] || account['name']),
-            iban: account['iban'],
-            bic: account['bic']
-          )
+          build_account(account)
         end
       end.compact
     end
 
-    def fetch_transactions_for(account)
+    def fetch_transactions_for(account, start_date: Date.today - 3.years, end_date: Date.today)
       log "fetch_transactions for #{account.id}"
+
+      # The API allows any limit to be passed, but we better keep
+      # being good API citizens and make a loop with a short limit
+
       params = {
-        fromDate: (Date.today - 1.years).strftime("%d/%m/%Y"),
-        toDate: Date.today.strftime("%d/%m/%Y"),
-        limit: 25,
+        fromDate: start_date.strftime("%d/%m/%Y"),
+        toDate: end_date.strftime("%d/%m/%Y"),
+        limit: 25, 
         offset: 0
       }
-      request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
-      transactions = JSON.parse(request)['elements']
 
-      transactions.collect do |transaction|
-        Transaction.new(
-          id: transaction['uuid'],
-          amount: transaction['amount'],
-          currency: transaction['EUR'],
-          effective_date: transaction['effectiveDate'],
-          description: transaction['description'],
-          balance: transaction['balance']
-        )
-      end
+      request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
+      json = JSON.parse(request)['elements']
+
+      json['elements'].collect { |transaction| build_transaction(transaction, account) }
     end
 
     private
@@ -198,6 +184,34 @@ module BankScrap
         pinpad_numbers.index(second_digit.to_i),
         pinpad_numbers.index(third_digit.to_i)
       ]
+    end
+
+    # Build an Account object from API data
+    def build_account(data)
+      Account.new(
+        bank: self,
+        id: data['uuid'],
+        name: data['name'],
+        balance: data['balance'],
+        currency: 'EUR',
+        available_balance: data['availableBalance'],
+        description: (data['alias'] || data['name']),
+        iban: data['iban'],
+        bic: data['bic']
+      )
+    end
+
+    # Build a transaction object from API data
+    def build_transaction(data, account)
+      Transaction.new(
+        account: account,
+        id: data['uuid'],
+        amount: data['amount'],
+        currency: data['EUR'],
+        effective_date: data['effectiveDate'],
+        description: data['description'],
+        balance: data['balance']
+      )
     end
   end
 end
