@@ -75,7 +75,7 @@ module BankScrap
       }
 
       request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
-      json = JSON.parse(request)['elements']
+      json = JSON.parse(request)
 
       json['elements'].collect { |transaction| build_transaction(transaction, account) }
     end
