@@ -12,9 +12,13 @@ module BankScrap
     end
 
     # Interface method placeholders
-    
+
     def fetch_accounts
       raise Exception.new "#{self.class} should implement a fetch_account method"
+    end
+
+    def fetch_transactions_for(account)
+      raise Exception.new "#{self.class} should implement a fetch_transactions method"
     end
 
     private
@@ -60,6 +64,7 @@ module BankScrap
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         mechanize.log = Logger.new(STDOUT) if @debug
+        mechanize.set_proxy 'localhost', 8888
       end
 
       @headers = {}
