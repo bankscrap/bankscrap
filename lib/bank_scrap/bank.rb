@@ -64,7 +64,6 @@ module BankScrap
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         mechanize.log = Logger.new(STDOUT) if @debug
-        mechanize.set_proxy 'localhost', 8888
       end
 
       @headers = {}
