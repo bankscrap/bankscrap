@@ -23,8 +23,8 @@ module BankScrap
 
     private
 
-    def get(url)
-      @http.get(url).body
+    def get(url, params = {})
+      @http.get(url, params).body
     end
 
     def post(url, fields)
@@ -64,7 +64,6 @@ module BankScrap
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         mechanize.log = Logger.new(STDOUT) if @debug
-        mechanize.set_proxy 'localhost', 8888
       end
 
       @headers = {}

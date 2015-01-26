@@ -10,7 +10,7 @@ module BankScrap
     LOGIN_ENDPOINT     = BASE_ENDPOINT + 'genoma_login/rest/session'
     POST_AUTH_ENDPOINT = BASE_ENDPOINT + 'genoma_api/login/auth/response'
     CLIENT_ENDPOINT    = BASE_ENDPOINT + 'genoma_api/rest/client'
-    ACCOUNTS_ENDPOINT  = BASE_ENDPOINT + 'genoma_api/rest/products'
+    PRODUCTS_ENDPOINT  = BASE_ENDPOINT + 'genoma_api/rest/products'
 
     SAMPLE_WIDTH  = 30
     SAMPLE_HEIGHT = 30
@@ -46,12 +46,13 @@ module BankScrap
     end
 
     def fetch_accounts
+      log 'fetch_accounts'
       set_headers({
         "Accept"       => '*/*',
         'Content-Type' => 'application/json; charset=utf-8'
       })
 
-      @raw_accounts_data = JSON.parse(get(ACCOUNTS_ENDPOINT))
+      @raw_accounts_data = JSON.parse(get(PRODUCTS_ENDPOINT))
 
       @raw_accounts_data.collect do |account|
         if account['iban']
@@ -71,7 +72,26 @@ module BankScrap
     end
 
     def fetch_transactions_for(account)
-      raise Exception.new('Not implemented yet')
+      log "fetch_transactions for #{account.id}"
+      params = {
+        fromDate: (Date.today - 1.years).strftime("%d/%m/%Y"),
+        toDate: Date.today.strftime("%d/%m/%Y"),
+        limit: 25,
+        offset: 0
+      }
+      request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
+      transactions = JSON.parse(request)['elements']
+
+      transactions.collect do |transaction|
+        Transaction.new(
+          id: transaction['uuid'],
+          amount: transaction['amount'],
+          currency: transaction['EUR'],
+          effective_date: transaction['effectiveDate'],
+          description: transaction['description'],
+          balance: transaction['balance']
+        )
+      end
     end
 
     private
@@ -88,16 +108,17 @@ module BankScrap
         'Content-Type' => 'application/json; charset=utf-8'
       })
 
-      param = '{' +
-                '"loginDocument":{' +
-                  '"documentType":0,"document":"' + @dni.to_s +
-                '"},' +
-                '"birthday":"' + @birthday.to_s + '",' +
-                '"companyDocument":null,' +
-                '"device":"desktop"}' +
-              '}'
+      param = {
+        loginDocument: {
+          documentType: 0,
+          document: @dni.to_s
+        },
+        birthday: @birthday.to_s,
+        companyDocument: nil,
+        device: 'desktop'
+      }
 
-      response = JSON.parse(post(LOGIN_ENDPOINT, param))
+      response = JSON.parse(post(LOGIN_ENDPOINT, param.to_json))
       positions = response['pinPositions']
       pinpad    = response['pinpad']
 
@@ -131,7 +152,7 @@ module BankScrap
     def save_pinpad_numbers(pinpad)
       pinpad_numbers_paths = []
       pinpad.each_with_index do |digit,index|
-        tmp = Tempfile.new(["pinpad_number_#{index}__", '.png'])
+        tmp = Tempfile.new(["pinpad_number_#{index}", '.png'])
         File.open(tmp.path, 'wb'){ |f| f.write(Base64.decode64(digit)) }
         pinpad_numbers_paths << tmp.path
       end
