@@ -17,7 +17,7 @@ module BankScrap
       raise Exception.new "#{self.class} should implement a fetch_account method"
     end
 
-    def fetch_transactions_for(account)
+    def fetch_transactions_for(account, start_date: Date.today - 2.years, end_date: Date.today)
       raise Exception.new "#{self.class} should implement a fetch_transactions method"
     end
 
@@ -64,6 +64,7 @@ module BankScrap
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         mechanize.log = Logger.new(STDOUT) if @debug
+        mechanize.set_proxy 'localhost', 8888
       end
 
       @headers = {}
