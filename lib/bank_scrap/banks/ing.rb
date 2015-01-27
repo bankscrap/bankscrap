@@ -18,7 +18,7 @@ module BankScrap
     def initialize(user, password, log: false, debug: false, extra_args:)
       @dni      = user
       @password = password.to_s
-      @birthday = extra_args['birthday']
+      @birthday = extra_args.with_indifferent_access['birthday']
       @log      = log
       @debug    = debug
 
