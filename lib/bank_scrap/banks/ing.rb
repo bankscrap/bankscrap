@@ -61,12 +61,11 @@ module BankScrap
       end.compact
     end
 
-    def fetch_transactions_for(account, start_date: Date.today - 3.years, end_date: Date.today)
+    def fetch_transactions_for(account, start_date: Date.today - 1.month, end_date: Date.today)
       log "fetch_transactions for #{account.id}"
 
       # The API allows any limit to be passed, but we better keep
       # being good API citizens and make a loop with a short limit
-
       params = {
         fromDate: start_date.strftime("%d/%m/%Y"),
         toDate: end_date.strftime("%d/%m/%Y"),
@@ -74,10 +73,15 @@ module BankScrap
         offset: 0
       }
 
-      request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
-      json = JSON.parse(request)
-
-      json['elements'].collect { |transaction| build_transaction(transaction, account) }
+      transactions = []
+      loop do
+        request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
+        json = JSON.parse(request)
+        transactions += json['elements'].collect { |transaction| build_transaction(transaction, account) }
+        params[:offset] += 25
+        break if (params[:offset] > json['total']) || json['elements'].blank?
+      end
+      transactions
     end
 
     private

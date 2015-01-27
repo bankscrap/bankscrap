@@ -50,12 +50,12 @@ module BankScrap
     end
 
     # Fetch transactions for the given account. 
-    # By default it fetches transactions for the last 3 years,
-    # which is the maximum allowed by the BBVA API.
+    # By default it fetches transactions for the last month,
+    # The maximum allowed by the BBVA API is the last 3 years.
     #
     # Account should be a BankScrap::Account object
     # Returns an array of BankScrap::Transaction objects
-    def fetch_transactions_for(account, start_date: Date.today - 3.years, end_date: Date.today)
+    def fetch_transactions_for(account, start_date: Date.today - 1.month, end_date: Date.today)
       fromDate = start_date.strftime("%Y-%m-%d")
       toDate = end_date.strftime("%Y-%m-%d")
 
