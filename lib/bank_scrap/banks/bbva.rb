@@ -131,14 +131,16 @@ module BankScrap
 
     # Build a transaction object from API data
     def build_transaction(data, account)
+      amount = Money.new(data['amount'] * 100, data['currency'])
+      balance = data['accountBalanceAfterMovement'] ? Money.new(data['accountBalanceAfterMovement'] * 100, data['currency']) : nil
       Transaction.new(
         account: account,
         id: data['id'],
-        amount: data['amount'],
-        description: data['conceptDescription'],
-        effective_date: data['valueDate'],
+        amount: amount,
+        description: data['conceptDescription'] || data['description'],
+        effective_date: Date.strptime(data['operationDate'], "%Y-%m-%d"),
         currency: data['currency'],
-        balance: data['accountBalanceAfterMovement']
+        balance: balance
       )
     end
   end

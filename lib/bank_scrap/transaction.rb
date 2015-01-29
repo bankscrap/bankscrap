@@ -10,6 +10,10 @@ module BankScrap
       params.each{ |key, value| send "#{key}=", value }
     end
 
+    def to_s
+      "[#{effective_date}]\t#{description.ljust(50)} #{amount.format.rjust(10)}"
+    end
+
     private
 
     def inspect_attributes
@@ -19,7 +23,6 @@ module BankScrap
         :balance
       ]
     end
-
   end
 end
 

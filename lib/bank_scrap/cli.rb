@@ -27,13 +27,19 @@ module BankScrap
       end
     end
 
-    # desc "transactions BANK", "get account's transactions"
-    # shared_options
-    # def transactions(bank)
-    #   assign_shared_options
-    #   initialize_client_for(bank)
-    #   transactions = @client.get_transactions
-    # end
+    desc "transactions BANK", "get account's transactions"
+    shared_options
+    def transactions(bank, iban = nil)
+      assign_shared_options
+      initialize_client_for(bank)
+      account = iban ? @client.account_with_iban(iban) : @client.accounts.first
+      transactions = account.transactions
+      say "Transactions for: #{account.description} (#{account.iban})", :cyan
+      
+      transactions.each do |transaction|
+        say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
+      end
+    end
 
     private 
 

@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mechanize', "~> 2.7.3"
   spec.add_dependency 'activesupport', "~> 4.1"
   spec.add_dependency 'rmagick', '~> 2.2', '>= 2.2.2'
+  spec.add_dependency 'money', '~> 6.5.0'
 end

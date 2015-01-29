@@ -21,6 +21,10 @@ module BankScrap
       raise Exception.new "#{self.class} should implement a fetch_transactions method"
     end
 
+    def account_with_iban(iban)
+      accounts.find { |account| account.iban.gsub(' ','') == iban.gsub(' ','') }
+    end
+
     private
 
     def get(url, params = {})
