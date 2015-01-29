@@ -18,27 +18,70 @@ module BankScrap
     def initialize(user, password, log: false, debug: false, extra_args:)
       @dni      = user
       @password = password.to_s
-      @birthday = extra_args['birthday']
+      @birthday = extra_args.with_indifferent_access['birthday']
       @log      = log
       @debug    = debug
 
       initialize_connection
       bundled_login
-      get_products
+
+      super
     end
 
     def get_balance
       log 'get_balance'
-      balance = {}
-      @data.each do |item|
-        balance[item['name']] = item['balance']
+      balances = {}
+      total_balance = 0
+      @accounts.each do |account|
+        balances[account.description] = account.balance
+        total_balance += account.balance
       end
 
-      balance
+      balances['TOTAL'] = total_balance
+      balances
     end
 
-    def raw_product_data
-      @data
+    def raw_accounts_data
+      @raw_accounts_data
+    end
+
+    def fetch_accounts
+      log 'fetch_accounts'
+      set_headers({
+        "Accept"       => '*/*',
+        'Content-Type' => 'application/json; charset=utf-8'
+      })
+
+      @raw_accounts_data = JSON.parse(get(PRODUCTS_ENDPOINT))
+
+      @raw_accounts_data.collect do |account|
+        if account['iban']
+          build_account(account)
+        end
+      end.compact
+    end
+
+    def fetch_transactions_for(account, start_date: Date.today - 1.month, end_date: Date.today)
+      log "fetch_transactions for #{account.id}"
+
+      # The API allows any limit to be passed, but we better keep
+      # being good API citizens and make a loop with a short limit
+      params = {
+        fromDate: start_date.strftime("%d/%m/%Y"),
+        toDate: end_date.strftime("%d/%m/%Y"),
+        limit: 25, 
+        offset: 0
+      }
+
+      transactions = []
+      loop do
+        request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
+        json = JSON.parse(request)
+        transactions += json['elements'].collect { |transaction| build_transaction(transaction, account) }
+        params[:offset] += 25
+        break if (params[:offset] > json['total']) || json['elements'].blank?
+      end
+      transactions
     end
 
     private
@@ -55,16 +98,17 @@ module BankScrap
         'Content-Type' => 'application/json; charset=utf-8'
       })
 
-      param = '{' +
-                '"loginDocument":{' +
-                  '"documentType":0,"document":"' + @dni.to_s +
-                '"},' +
-                '"birthday":"' + @birthday.to_s + '",' +
-                '"companyDocument":null,' +
-                '"device":"desktop"}' +
-              '}'
+      param = {
+        loginDocument: {
+          documentType: 0,
+          document: @dni.to_s
+        },
+        birthday: @birthday.to_s,
+        companyDocument: nil,
+        device: 'desktop'
+      }
 
-      response = JSON.parse(post(LOGIN_ENDPOINT, param))
+      response = JSON.parse(post(LOGIN_ENDPOINT, param.to_json))
       positions = response['pinPositions']
       pinpad    = response['pinpad']
 
@@ -95,19 +139,10 @@ module BankScrap
         post(POST_AUTH_ENDPOINT, param)
     end
 
-    def get_products
-      set_headers({
-        "Accept"       => '*/*',
-        'Content-Type' => 'application/json; charset=utf-8'
-      })
-
-      @data = JSON.parse(get(PRODUCTS_ENDPOINT))
-    end
-
     def save_pinpad_numbers(pinpad)
       pinpad_numbers_paths = []
       pinpad.each_with_index do |digit,index|
-        tmp = Tempfile.new(["pinpad_number_#{index}__", '.png'])
+        tmp = Tempfile.new(["pinpad_number_#{index}", '.png'])
         File.open(tmp.path, 'wb'){ |f| f.write(Base64.decode64(digit)) }
         pinpad_numbers_paths << tmp.path
       end
@@ -153,6 +188,34 @@ module BankScrap
         pinpad_numbers.index(second_digit.to_i),
         pinpad_numbers.index(third_digit.to_i)
       ]
+    end
+
+    # Build an Account object from API data
+    def build_account(data)
+      Account.new(
+        bank: self,
+        id: data['uuid'],
+        name: data['name'],
+        balance: data['balance'],
+        currency: 'EUR',
+        available_balance: data['availableBalance'],
+        description: (data['alias'] || data['name']),
+        iban: data['iban'],
+        bic: data['bic']
+      )
+    end
+
+    # Build a transaction object from API data
+    def build_transaction(data, account)
+      Transaction.new(
+        account: account,
+        id: data['uuid'],
+        amount: data['amount'],
+        currency: data['EUR'],
+        effective_date: data['effectiveDate'],
+        description: data['description'],
+        balance: data['balance']
+      )
     end
   end
 end

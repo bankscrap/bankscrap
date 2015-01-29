@@ -15,21 +15,30 @@ module BankScrap
       option :extra, type: :hash
     end
 
-    desc "balance BANK", "get account's balance"
+    desc "balance BANK", "get accounts' balance"
     shared_options
     def balance(bank)
       assign_shared_options
       initialize_client_for(bank)
 
-      say "Balance: #{@client.get_balance}", :green
+      @client.accounts.each do |account|
+        say "Account: #{account.description} (#{account.iban})", :cyan
+        say "Balance: #{account.balance}", :green
+      end
     end
 
     desc "transactions BANK", "get account's transactions"
     shared_options
-    def transactions(bank)
+    def transactions(bank, iban = nil)
       assign_shared_options
       initialize_client_for(bank)
-      transactions = @client.get_transactions
+      account = iban ? @client.account_with_iban(iban) : @client.accounts.first
+      transactions = account.transactions
+      say "Transactions for: #{account.description} (#{account.iban})", :cyan
+      
+      transactions.each do |transaction|
+        say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
+      end
     end
 
     private 

@@ -4,7 +4,8 @@ module BankScrap
   class Bbva < Bank
     BASE_ENDPOINT    = 'https://bancamovil.grupobbva.com'
     LOGIN_ENDPOINT   = '/DFAUTH/slod/DFServletXML'
-    BALANCE_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/products/v1'
+    PRODUCTS_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/products/v1'
+    ACCOUNT_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/accounts/'
     # BBVA expects an identifier before the actual User Agent, but 12345 works fine
     USER_AGENT       = '12345;Android;LGE;Nexus 5;1080x1776;Android;4.4.4;BMES;4.0.4'
 
@@ -29,22 +30,63 @@ module BankScrap
       })
 
       login
+      super
     end
 
-    def get_balance
-      log 'get_balance'
+    # Fetch all the accounts for the given user
+    # Returns an array of BankScrap::Account objects
+    def fetch_accounts
+      log 'fetch_accounts'
       
       # Even if the required method is an HTTP POST
       # the API requires a funny header that says is a GET
       # otherwise the request doesn't work.
       response = with_headers({'BBVA-Method' => 'GET'}) do
-        post(BASE_ENDPOINT + BALANCE_ENDPOINT, {})
+        post(BASE_ENDPOINT + PRODUCTS_ENDPOINT, {})
       end
 
       json = JSON.parse(response)
-      json["balances"]["personalAccounts"]
+      json["accounts"].collect { |data| build_account(data) }
     end
 
+    # Fetch transactions for the given account. 
+    # By default it fetches transactions for the last month,
+    # The maximum allowed by the BBVA API is the last 3 years.
+    #
+    # Account should be a BankScrap::Account object
+    # Returns an array of BankScrap::Transaction objects
+    def fetch_transactions_for(account, start_date: Date.today - 1.month, end_date: Date.today)
+      fromDate = start_date.strftime("%Y-%m-%d")
+      toDate = end_date.strftime("%Y-%m-%d")
+
+      # Misteriously we need a specific content-type here
+      funny_headers = {
+        'Content-Type' => 'application/json; charset=UTF-8',
+        'BBVA-Method' => 'GET'
+      }
+
+      url = BASE_ENDPOINT + ACCOUNT_ENDPOINT + account.id+ "/movements/v1?fromDate=#{fromDate}&toDate=#{toDate}"
+      offset = nil
+      transactions = []
+      
+      with_headers(funny_headers) do
+        # Loop over pagination
+        loop do
+          new_url = offset ? (url + "&offset=#{offset}") : url
+          json = JSON.parse(post(new_url, {}))
+
+          unless json["movements"].blank?
+            transactions += json["movements"].collect { |data| build_transaction(data, account) } 
+            offset = json["offset"]
+          end
+
+          break unless json["thereAreMoreMovements"] == true
+        end
+      end
+
+      transactions
+    end
+    
     private 
 
     # As far as we know there are two types of identifiers BBVA uses
@@ -71,6 +113,35 @@ module BankScrap
         'eai_password'   => @password,
         'eai_URLDestino' => '/ENPP/enpp_mult_web_mobility_02/sessions/v1'
       })
+    end
+
+    # Build an Account object from API data
+    def build_account(data)
+      Account.new(
+        bank: self,
+        id: data['id'],
+        name: data['name'],
+        available_balance: data['availableBalance'],
+        balance: data['availableBalance'],
+        currency: data['currency'],
+        iban: data['iban'],
+        description: "#{data['typeDescription']} #{data['familyCode']}"
+      )  
+    end 
+
+    # Build a transaction object from API data
+    def build_transaction(data, account)
+      amount = Money.new(data['amount'] * 100, data['currency'])
+      balance = data['accountBalanceAfterMovement'] ? Money.new(data['accountBalanceAfterMovement'] * 100, data['currency']) : nil
+      Transaction.new(
+        account: account,
+        id: data['id'],
+        amount: amount,
+        description: data['conceptDescription'] || data['description'],
+        effective_date: Date.strptime(data['operationDate'], "%Y-%m-%d"),
+        currency: data['currency'],
+        balance: balance
+      )
     end
   end
 end

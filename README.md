@@ -1,15 +1,15 @@
 # BankScrap
 
-Ruby gem to extract balance and transactions from banks. You can use it either as command line tool or as a library.
+Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
 
 Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
 
-|              | Bankinter |  BBVA  | ING Direct |
-|--------------|:---------:|:------:|:----------:|
-|    Balance   |    ✓      |   ✓    |  ✓         |
-| Transactions |    WIP    |  WIP   |  ✘         |
+|                 |  BBVA  | ING Direct | Bankinter |
+|-----------------|:------:|:----------:|:---------:|
+| Account Balance |    ✓   |     ✓     |    WIP    |
+|  Transactions   |    ✓   |     ✓     |    WIP    |
 
 Interested in any other bank? Open a new Issue and we'll try to help.
  
@@ -77,18 +77,44 @@ If you don't want to pass your user and password everytime you can define them i
 
 You can also use this gem from your own app as library. To do so first you must initialize a BankScrap::Bank object
 
+
 ```ruby
 require 'bank_scrap'
-@bank = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+# BBVA
+bbva = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+# ING
+ing = BankScrap::Ing.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
 ```
 
-(Replace Bbva with your own bank)
 
-Now you can fetch your balance:
+The initialize method will automatically login and fetch your bank accounts
+
+You can now explore your bank accounts accounts:
 
 ```ruby
-@bank.get_balance
+bank.accounts
 ```
+
+And get its balance:
+```ruby
+bank.accounts.first.balance
+```
+
+Get last month transactions for a particular account:
+
+```ruby
+account = bank.accounts.first
+account.transactions
+```
+
+Get transactions for last year (from now):
+
+```ruby
+account = bank.accounts.first
+account.transactions = account.fetch_transactions(start_date: Date.today - 1.year, end_date: Date.today)
+account.transactions
+```
+
 
 
 ## Contributing
