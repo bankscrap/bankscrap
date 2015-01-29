@@ -11,7 +11,7 @@ module BankScrap
     end
 
     def to_s
-      "[#{effective_date}]\t#{description.ljust(50)} #{amount.format.rjust(10)}"
+      "#{effective_date.strftime("%d/%m/%Y")}   #{description.ljust(45)} #{amount.format.rjust(20)}"
     end
 
     private
