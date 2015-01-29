@@ -50,11 +50,7 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ## Usage
 
 ### From terminal
-Retrieve balance account
-
-##### Bankinter
-
-    $ bank_scrap balance bankinter --user YOUR_BANKINTER_USER --password YOUR_BANKINTER_PASSWORD
+#### Bank account balance
 
 ##### BBVA
 
@@ -66,6 +62,19 @@ ING needs one more argument: your bithday.
     $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
+
+#### Transactions for last 30 days
+##### BBVA
+
+    $ bank_scrap transactions bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+
+##### ING Direct
+
+    $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+
+By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
+
+    $ bank_scrap transactions your_bank your_iban --user YOUR_DNI --password YOUR_PASSWORD
 
 ---
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
