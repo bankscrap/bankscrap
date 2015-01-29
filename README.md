@@ -52,11 +52,11 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ### From terminal
 #### Bank account balance
 
-##### BBVA
+###### BBVA
 
     $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
-##### ING Direct
+###### ING Direct
 ING needs one more argument: your bithday.
 
     $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
@@ -64,11 +64,11 @@ ING needs one more argument: your bithday.
 Replace 01/01/1980 with your actual birthday.
 
 #### Transactions for last 30 days
-##### BBVA
+###### BBVA
 
     $ bank_scrap transactions bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
-##### ING Direct
+###### ING Direct
 
     $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
