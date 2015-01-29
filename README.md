@@ -72,11 +72,12 @@ Replace 01/01/1980 with your actual birthday.
 
     $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
+---
+
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
     $ bank_scrap transactions your_bank your_iban --user YOUR_DNI --password YOUR_PASSWORD
 
----
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
     export BANK_SCRAP_USER=YOUR_BANK_USER
