@@ -7,11 +7,11 @@ module BankScrap
                   :balance, :account
 
     def initialize(params = {})
-      params.each{ |key, value| send "#{key}=", value }
+      params.each { |key, value| send "#{key}=", value }
     end
 
     def to_s
-      "#{effective_date.strftime("%d/%m/%Y")}   #{description.ljust(45)} #{amount.format.rjust(20)}"
+      "#{effective_date.strftime('%d/%m/%Y')}   #{description.ljust(45)} #{amount.format.rjust(20)}"
     end
 
     private

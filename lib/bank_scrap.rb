@@ -11,7 +11,7 @@ require 'bank_scrap/transaction'
 module BankScrap
   # autoload only requires the file when the specified
   # constant is used for the first time
-  autoload :Bankinter,  'bank_scrap/banks/bankinter'
-  autoload :Bbva,       'bank_scrap/banks/bbva'
-  autoload :Ing,        'bank_scrap/banks/ing'
+  autoload :Bankinter, 'bank_scrap/banks/bankinter'
+  autoload :Bbva,      'bank_scrap/banks/bbva'
+  autoload :Ing,       'bank_scrap/banks/ing'
 end
