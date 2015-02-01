@@ -5,15 +5,15 @@ require 'tempfile'
 
 module BankScrap
   class Ing < Bank
-
     BASE_ENDPOINT = 'https://ing.ingdirect.es/'
     LOGIN_ENDPOINT     = BASE_ENDPOINT + 'genoma_login/rest/session'
     POST_AUTH_ENDPOINT = BASE_ENDPOINT + 'genoma_api/login/auth/response'
     CLIENT_ENDPOINT    = BASE_ENDPOINT + 'genoma_api/rest/client'
     PRODUCTS_ENDPOINT  = BASE_ENDPOINT + 'genoma_api/rest/products'
 
-    SAMPLE_WIDTH  = 30
-    SAMPLE_HEIGHT = 30
+    SAMPLE_WIDTH     = 30
+    SAMPLE_HEIGHT    = 30
+    SAMPLE_ROOT_PATH = '/ing/numbers'
 
     def initialize(user, password, log: false, debug: false, extra_args:)
       @dni      = user
@@ -28,8 +28,8 @@ module BankScrap
       super
     end
 
-    def get_balance
-      log 'get_balance'
+    def balances
+      log 'get_balances'
       balances = {}
       total_balance = 0
       @accounts.each do |account|
@@ -41,23 +41,17 @@ module BankScrap
       balances
     end
 
-    def raw_accounts_data
-      @raw_accounts_data
-    end
-
     def fetch_accounts
       log 'fetch_accounts'
-      set_headers({
-        "Accept"       => '*/*',
+      add_headers(
+        'Accept'       => '*/*',
         'Content-Type' => 'application/json; charset=utf-8'
-      })
+      )
 
       @raw_accounts_data = JSON.parse(get(PRODUCTS_ENDPOINT))
 
-      @raw_accounts_data.collect do |account|
-        if account['iban']
-          build_account(account)
-        end
+      @raw_accounts_data.map do |account|
+        build_account(account) if account['iban']
       end.compact
     end
 
@@ -67,9 +61,9 @@ module BankScrap
       # The API allows any limit to be passed, but we better keep
       # being good API citizens and make a loop with a short limit
       params = {
-        fromDate: start_date.strftime("%d/%m/%Y"),
-        toDate: end_date.strftime("%d/%m/%Y"),
-        limit: 25, 
+        fromDate: start_date.strftime('%d/%m/%Y'),
+        toDate: end_date.strftime('%d/%m/%Y'),
+        limit: 25,
         offset: 0
       }
 
@@ -77,7 +71,9 @@ module BankScrap
       loop do
         request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
         json = JSON.parse(request)
-        transactions += json['elements'].collect { |transaction| build_transaction(transaction, account) }
+        transactions += json['elements'].map do |transaction|
+          build_transaction(transaction, account)
+        end
         params[:offset] += 25
         break if (params[:offset] > json['total']) || json['elements'].blank?
       end
@@ -93,12 +89,12 @@ module BankScrap
     end
 
     def login
-      set_headers({
-        "Accept"       => 'application/json, text/javascript, */*; q=0.01',
+      add_headers(
+        'Accept'       => 'application/json, text/javascript, */*; q=0.01',
         'Content-Type' => 'application/json; charset=utf-8'
-      })
+      )
 
-      param = {
+      params = {
         loginDocument: {
           documentType: 0,
           document: @dni.to_s
@@ -108,74 +104,76 @@ module BankScrap
         device: 'desktop'
       }
 
-      response = JSON.parse(post(LOGIN_ENDPOINT, param.to_json))
-      positions = response['pinPositions']
-      pinpad    = response['pinpad']
+      response = JSON.parse(post(LOGIN_ENDPOINT, params.to_json))
+      current_pinpad_paths = save_pinpad_numbers(response['pinpad'])
+      pinpad_numbers = recognize_pinpad_numbers(current_pinpad_paths)
 
-      pinpad_numbers_paths = save_pinpad_numbers(pinpad)
-      pinpad_numbers = recognize_pinpad_numbers(pinpad_numbers_paths)
-
-      get_correct_positions(pinpad_numbers, positions)
+      get_correct_positions(pinpad_numbers, response['pinPositions'])
     end
 
     def pass_pinpad(positions)
-      set_headers({
-          "Accept"       => 'application/json, text/javascript, */*; q=0.01',
-          'Content-Type' => 'application/json; charset=utf-8'
-        })
-
-      param = "{\"pinPositions\": #{positions}}"
-      response = put(LOGIN_ENDPOINT, param)
+      response = put(LOGIN_ENDPOINT, { pinPositions: positions }.to_json)
       JSON.parse(response)['ticket']
     end
 
     def post_auth(ticket)
-        set_headers({
-          "Accept"       => 'application/json, text/javascript, */*; q=0.01',
-          'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
-        })
+      add_headers(
+        'Accept'       => 'application/json, text/javascript, */*; q=0.01',
+        'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
+      )
 
-        param = "ticket=#{ticket}&device=desktop"
-        post(POST_AUTH_ENDPOINT, param)
+      params = "ticket=#{ticket}&device=desktop"
+      post(POST_AUTH_ENDPOINT, params)
     end
 
     def save_pinpad_numbers(pinpad)
-      pinpad_numbers_paths = []
-      pinpad.each_with_index do |digit,index|
+      current_pinpad_paths = []
+      pinpad.each_with_index do |digit, index|
         tmp = Tempfile.new(["pinpad_number_#{index}", '.png'])
-        File.open(tmp.path, 'wb'){ |f| f.write(Base64.decode64(digit)) }
-        pinpad_numbers_paths << tmp.path
+        File.open(tmp.path, 'wb') { |f| f.write(Base64.decode64(digit)) }
+        current_pinpad_paths << tmp.path
       end
 
-      pinpad_numbers_paths
+      current_pinpad_paths
     end
 
-    def recognize_pinpad_numbers(pinpad_numbers_paths)
-      pinpad_numbers = []
-      pinpad_images = Magick::ImageList.new(*pinpad_numbers_paths)
+    def recognize_pinpad_numbers(current_pinpad_paths)
+      real_numbers = []
+      current_numbers = Magick::ImageList.new(*current_pinpad_paths)
       0.upto(9) do |i|
-        single_number = pinpad_images[i]
-        differences = []
+        current_number_img = current_numbers[i]
+        pixel_diffs = []
         0.upto(9) do |j|
-          pinpad_pixels_sample = single_number.get_pixels(0,0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
-
-          img = Magick::ImageList.new(File.join(File.dirname(__FILE__), "/ing/numbers/pinpad#{j}.png")).first
-          number_pixels_sample = img.get_pixels(0, 0, SAMPLE_WIDTH, SAMPLE_HEIGHT)
-          diff = 0
-          pinpad_pixels_sample.each_with_index do |pixel, index|
-            sample_pixel = number_pixels_sample[index]
-            diff += (pixel.red - sample_pixel.red).abs +
-                    (pixel.green - sample_pixel.green).abs +
-                    (pixel.blue - sample_pixel.blue).abs
-          end
-          differences << diff
+          sample_number_img = Magick::ImageList.new(sample_number_path(j)).first
+          pixel_diffs << images_diff(sample_number_img, current_numbers[i])
         end
+        real_numbers << pixel_diffs.each_with_index.min.last
+      end
+      real_numbers
+    end
 
-        real_number = differences.each_with_index.min.last
-        pinpad_numbers << real_number
+    def sample_number_path(number)
+      File.join(File.dirname(__FILE__), "#{SAMPLE_ROOT_PATH}/#{number}.png")
+    end
+
+    def images_diff(sample_number_img, current_number_img)
+      diff = 0
+      sample_pixels  = pixels_from_coordinates(sample_number_img, 0, 0)
+      current_pixels = pixels_from_coordinates(current_number_img, 0, 0)
+      current_pixels.each_with_index do |pixel, index|
+        sample_pixel = sample_pixels[index]
+        red_diff = (pixel.red - sample_pixel.red).abs
+        green_diff = (pixel.green - sample_pixel.green).abs
+        blue_diff = (pixel.blue - sample_pixel.blue).abs
+
+        diff += red_diff + green_diff + blue_diff
       end
 
-      pinpad_numbers
+      diff
+    end
+
+    def pixels_from_coordinates(img, x, y)
+      img.get_pixels(x, y, SAMPLE_WIDTH, SAMPLE_HEIGHT)
     end
 
     def get_correct_positions(pinpad_numbers, positions)
