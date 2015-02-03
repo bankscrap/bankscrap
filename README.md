@@ -1,5 +1,7 @@
 # BankScrap
 
+[![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
+
 Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
 
 Feel free to contribute and add your bank if it isn't supported.
