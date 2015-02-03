@@ -210,7 +210,7 @@ module BankScrap
         id: data['uuid'],
         amount: data['amount'],
         currency: data['EUR'],
-        effective_date: data['effectiveDate'],
+        effective_date: Date.strptime(data['effectiveDate'], "%Y-%m-%d"),
         description: data['description'],
         balance: data['balance']
       )
