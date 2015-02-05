@@ -205,10 +205,11 @@ module BankScrap
 
     # Build a transaction object from API data
     def build_transaction(data, account)
+      amount = Money.new(data['amount'] * 100, data['currency'])
       Transaction.new(
         account: account,
         id: data['uuid'],
-        amount: data['amount'],
+        amount: amount,
         currency: data['EUR'],
         effective_date: Date.strptime(data['effectiveDate'], "%d/%m/%Y"),
         description: data['description'],
