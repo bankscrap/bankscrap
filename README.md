@@ -74,6 +74,10 @@ Replace 01/01/1980 with your actual birthday.
 
     $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
+#### Transactions with date range
+
+    $ bank_scrap transactions your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
+
 ---
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
