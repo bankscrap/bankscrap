@@ -10,8 +10,8 @@ Feel free to contribute and add your bank if it isn't supported.
 
 |                 |  BBVA  | ING Direct | Bankinter |
 |-----------------|:------:|:----------:|:---------:|
-| Account Balance |    ✓   |     ✓     |    WIP    |
-|  Transactions   |    ✓   |     ✓     |    WIP    |
+| Account Balance |    ✓   |      ✓     |     ✓     |
+|  Transactions   |    ✓   |      ✓     |     ✓     |
 
 Interested in any other bank? Open a new Issue and we'll try to help.
  
@@ -54,9 +54,9 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ### From terminal
 #### Bank account balance
 
-###### BBVA
+###### BBVA | Bankinter
 
-    $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+    $ bank_scrap balance your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
 
 ###### ING Direct
 ING needs one more argument: your birthday.
@@ -96,6 +96,8 @@ require 'bank_scrap'
 bbva = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
 # ING
 ing = BankScrap::Ing.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
+# BANKINTER
+bankinter = BankScrap::Bankinter.new(YOUR_BANKINTER_USER, YOUR_BANKINTER_PASSWORD)
 ```
 
 
