@@ -59,7 +59,7 @@ Or, if you're using Bundler, just add the following to your Gemfile:
     $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
 ###### ING Direct
-ING needs one more argument: your bithday.
+ING needs one more argument: your birthday.
 
     $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
