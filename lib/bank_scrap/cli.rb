@@ -44,7 +44,7 @@ module BankScrap
       account = iban ? @client.account_with_iban(iban) : @client.accounts.first
 
       if (!start_date.nil? && !end_date.nil?)
-        if (start_date >= end_date)
+        if (start_date > end_date)
           say "From date must be lower than to date", :red
           exit
         end
