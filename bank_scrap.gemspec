@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["root@ismagnu.com"]
   spec.summary       = %q{Get your bank account details.}
   spec.description   = %q{Command line tools to get bank account details from some banks.}
-  spec.homepage      = "https://github.com/ismaGNU/bank_scrap"
+  spec.homepage      = "https://github.com/bank-scrap/bank_scrap"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
