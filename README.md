@@ -37,7 +37,7 @@ Some banks needs a JavaScript runtime in order to work. So if you find an error 
 
 You can check out the latest source from git:
 
-    git clone git://github.com/ismaGNU/bank_scrap
+    git clone git://github.com/bank-scrap/bank_scrap
 
 ### From RubyGems
 
@@ -137,7 +137,7 @@ account.transactions
 
 ## Contributing
 
-1. Fork it ( https://github.com/ismaGNU/bank_scrap/fork )
+1. Fork it ( https://github.com/bank-scrap/bank_scrap/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
