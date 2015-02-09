@@ -29,7 +29,7 @@ BankScrap uses both methods depending on the bank.
 
 ## Requirements
 
-Some banks needs a JavaScript runtime in order to work. So if you find an error like "Could not find JavasScript runtime" try to install one. It has been tested with nodejs.
+Some banks needs a JavaScript runtime in order to work. So if you find an error like "Could not find JavaScript runtime" try to install one. It has been tested with nodejs.
 
 ## Installation
 
