@@ -43,7 +43,7 @@ module BankScrap
 
     def fetch_accounts
       log 'fetch_accounts'
-      add_headers(
+      set_headers(
         'Accept'       => '*/*',
         'Content-Type' => 'application/json; charset=utf-8'
       )
@@ -89,7 +89,7 @@ module BankScrap
     end
 
     def login
-      add_headers(
+      set_headers(
         'Accept'       => 'application/json, text/javascript, */*; q=0.01',
         'Content-Type' => 'application/json; charset=utf-8'
       )
@@ -117,7 +117,7 @@ module BankScrap
     end
 
     def post_auth(ticket)
-      add_headers(
+      set_headers(
         'Accept'       => 'application/json, text/javascript, */*; q=0.01',
         'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
       )
@@ -205,12 +205,13 @@ module BankScrap
 
     # Build a transaction object from API data
     def build_transaction(data, account)
+      amount = Money.new(data['amount'] * 100, data['currency'])
       Transaction.new(
         account: account,
         id: data['uuid'],
-        amount: data['amount'],
+        amount: amount,
         currency: data['EUR'],
-        effective_date: data['effectiveDate'],
+        effective_date: Date.strptime(data['effectiveDate'], "%d/%m/%Y"),
         description: data['description'],
         balance: data['balance']
       )

@@ -56,9 +56,6 @@ module BankScrap
     end
 
     def initialize_cookie(url)
-      log 'Initialize cookie'
-
-      @http.url = url
       @http.get(url).body
     end
 

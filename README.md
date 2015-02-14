@@ -1,5 +1,7 @@
 # BankScrap
 
+[![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
+
 Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
 
 Feel free to contribute and add your bank if it isn't supported.
@@ -8,8 +10,8 @@ Feel free to contribute and add your bank if it isn't supported.
 
 |                 |  BBVA  | ING Direct | Bankinter |
 |-----------------|:------:|:----------:|:---------:|
-| Account Balance |    ✓   |     ✓     |    WIP    |
-|  Transactions   |    ✓   |     ✓     |    WIP    |
+| Account Balance |    ✓   |      ✓     |     ✓     |
+|  Transactions   |    ✓   |      ✓     |     ✓     |
 
 Interested in any other bank? Open a new Issue and we'll try to help.
  
@@ -27,7 +29,7 @@ BankScrap uses both methods depending on the bank.
 
 ## Requirements
 
-Some banks needs a JavaScript runtime in order to work. So if you find an error like "Could not find JavasScript runtime" try to install one. It has been tested with nodejs.
+Some banks needs a JavaScript runtime in order to work. So if you find an error like "Could not find JavaScript runtime" try to install one. It has been tested with nodejs.
 
 ## Installation
 
@@ -35,7 +37,7 @@ Some banks needs a JavaScript runtime in order to work. So if you find an error 
 
 You can check out the latest source from git:
 
-    git clone git://github.com/ismaGNU/bank_scrap
+    git clone git://github.com/bank-scrap/bank_scrap
 
 ### From RubyGems
 
@@ -52,12 +54,12 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 ### From terminal
 #### Bank account balance
 
-###### BBVA
+###### BBVA | Bankinter
 
-    $ bank_scrap balance bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+    $ bank_scrap balance your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
 
 ###### ING Direct
-ING needs one more argument: your bithday.
+ING needs one more argument: your birthday.
 
     $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
@@ -71,6 +73,10 @@ Replace 01/01/1980 with your actual birthday.
 ###### ING Direct
 
     $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+
+#### Transactions with date range
+
+    $ bank_scrap transactions your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
 
 ---
 
@@ -94,6 +100,8 @@ require 'bank_scrap'
 bbva = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
 # ING
 ing = BankScrap::Ing.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
+# BANKINTER
+bankinter = BankScrap::Bankinter.new(YOUR_BANKINTER_USER, YOUR_BANKINTER_PASSWORD)
 ```
 
 
@@ -129,7 +137,7 @@ account.transactions
 
 ## Contributing
 
-1. Fork it ( https://github.com/ismaGNU/bank_scrap/fork )
+1. Fork it ( https://github.com/bank-scrap/bank_scrap/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

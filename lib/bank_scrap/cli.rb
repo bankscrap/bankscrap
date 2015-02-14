@@ -12,7 +12,7 @@ module BankScrap
       # Some bank needs more input, like birthday, this would go here
       # Usage:
       # bank_scrap balance BANK_NAME --extra=birthday:01/12/1980
-      option :extra, type: :hash
+      option :extra, type: :hash, default: {}
     end
 
     desc 'balance BANK', "get accounts' balance"
@@ -31,9 +31,29 @@ module BankScrap
     shared_options
     def transactions(bank, iban = nil)
       assign_shared_options
+    
+      begin 
+        start_date = @extra_args.has_key?('from') ? Date.strptime(@extra_args['from'],'%d-%m-%Y') : nil
+        end_date = @extra_args.has_key?('to') ? Date.strptime(@extra_args['to'],'%d-%m-%Y') : nil
+      rescue ArgumentError
+        say "Invalid date format. Correct format d-m-Y", :red
+      end
+
       initialize_client_for(bank)
+
       account = iban ? @client.account_with_iban(iban) : @client.accounts.first
-      transactions = account.transactions
+
+      if (!start_date.nil? && !end_date.nil?)
+        if (start_date > end_date)
+          say "From date must be lower than to date", :red
+          exit
+        end
+
+        transactions = account.fetch_transactions(start_date:start_date, end_date:end_date)
+      else
+        transactions = account.transactions
+      end
+
       say "Transactions for: #{account.description} (#{account.iban})", :cyan
 
       transactions.each do |transaction|
