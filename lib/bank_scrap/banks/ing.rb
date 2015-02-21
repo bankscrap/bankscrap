@@ -71,7 +71,7 @@ module BankScrap
       loop do
         request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
         json = JSON.parse(request)
-        transactions += json['elements'].map do |transaction|
+        transactions += (json['elements'] || []).map do |transaction|
           build_transaction(transaction, account)
         end
         params[:offset] += 25
