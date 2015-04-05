@@ -6,7 +6,7 @@ module BankScrap
     WEB_USER_AGENT = 'Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19'
     attr_accessor :headers, :accounts
 
-    def initialize(*)
+    def initialize(user, password, log: false, debug: false, extra_args: nil)
       @accounts = fetch_accounts
     end
 
