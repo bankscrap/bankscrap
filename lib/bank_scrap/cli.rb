@@ -15,7 +15,7 @@ module BankScrap
       option :extra, type: :hash, default: {}
     end
 
-    desc "balance BANK", "get accounts' balance"
+    desc 'balance BANK', "get accounts' balance"
     shared_options
     def balance(bank)
       assign_shared_options
@@ -27,7 +27,7 @@ module BankScrap
       end
     end
 
-    desc "transactions BANK", "get account's transactions"
+    desc 'transactions BANK', "get account's transactions"
     shared_options
     def transactions(bank, iban = nil)
       assign_shared_options
@@ -55,13 +55,13 @@ module BankScrap
       end
 
       say "Transactions for: #{account.description} (#{account.iban})", :cyan
-      
+
       transactions.each do |transaction|
         say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
       end
     end
 
-    private 
+    private
 
     def assign_shared_options
       @user       = options[:user]
@@ -72,15 +72,14 @@ module BankScrap
     end
 
     def initialize_client_for(bank_name)
-      bank_class = find_bank_class_for(bank_name)      
+      bank_class = find_bank_class_for(bank_name)
       @client = bank_class.new(@user, @password, log: @log, debug: @debug, extra_args: @extra_args)
     end
-    
+
     def find_bank_class_for(bank_name)
-      Object.const_get("BankScrap::" + bank_name.classify)
+      Object.const_get('BankScrap::' + bank_name.classify)
     rescue NameError
       raise ArgumentError.new('Invalid bank name')
     end
-
   end
 end
