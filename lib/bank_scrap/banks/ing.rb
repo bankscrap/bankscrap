@@ -43,7 +43,7 @@ module BankScrap
 
     def fetch_accounts
       log 'fetch_accounts'
-      set_headers(
+      add_headers(
         'Accept'       => '*/*',
         'Content-Type' => 'application/json; charset=utf-8'
       )
@@ -89,7 +89,7 @@ module BankScrap
     end
 
     def login
-      set_headers(
+      add_headers(
         'Accept'       => 'application/json, text/javascript, */*; q=0.01',
         'Content-Type' => 'application/json; charset=utf-8'
       )
@@ -117,7 +117,7 @@ module BankScrap
     end
 
     def post_auth(ticket)
-      set_headers(
+      add_headers(
         'Accept'       => 'application/json, text/javascript, */*; q=0.01',
         'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8'
       )
