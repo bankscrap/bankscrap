@@ -1,6 +1,6 @@
 require 'json'
 require 'base64'
-require 'RMagick'
+require 'rmagick'
 require 'tempfile'
 
 module BankScrap
