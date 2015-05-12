@@ -12,13 +12,13 @@ Gem::Specification.new do |spec|
     'Fernando Blat',
     'Raúl Marcos'
   ]
-  spec.email         = ["root@ismagnu.com"]
+  spec.email         = ['root@ismagnu.com']
   spec.summary       = %q{Get your bank account details.}
   spec.description   = %q{Command line tools to get bank account details from some banks.}
   spec.homepage      = "https://github.com/bank-scrap/bank_scrap"
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split('\x0')
+  spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}']
   spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
@@ -26,8 +26,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '~> 2.1'
 
   spec.add_development_dependency 'bundler', '~> 1.7'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'byebug', '~> 3.5', '>= 3.5.1'
+  spec.add_development_dependency 'rake',    '~> 10.0'
+  spec.add_development_dependency 'byebug',  '~> 3.5', '>= 3.5.1'
 
   spec.add_dependency 'thor',          '~> 0.19'
   spec.add_dependency 'nokogiri',      '~> 1.6'

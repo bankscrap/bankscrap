@@ -1,6 +1,6 @@
 require 'json'
 require 'base64'
-require 'RMagick'
+require 'rmagick'
 require 'tempfile'
 
 module BankScrap
@@ -25,6 +25,8 @@ module BankScrap
       initialize_connection
       bundled_login
 
+      @investments = fetch_investments
+
       super
     end
 
@@ -48,10 +50,20 @@ module BankScrap
         'Content-Type' => 'application/json; charset=utf-8'
       )
 
-      @raw_accounts_data = JSON.parse(get(PRODUCTS_ENDPOINT))
-
-      @raw_accounts_data.map do |account|
+      JSON.parse(get(PRODUCTS_ENDPOINT)).map do |account|
         build_account(account) if account['iban']
+      end.compact
+    end
+
+    def fetch_investments
+      log 'fetch_investments'
+      add_headers(
+        'Accept'       => '*/*',
+        'Content-Type' => 'application/json; charset=utf-8'
+      )
+
+      JSON.parse(get(PRODUCTS_ENDPOINT)).map do |investment|
+        build_investment(investment) if investment['investment']
       end.compact
     end
 
@@ -200,6 +212,17 @@ module BankScrap
         description: (data['alias'] || data['name']),
         iban: data['iban'],
         bic: data['bic']
+      )
+    end
+
+    def build_investment(data)
+      Investment.new(
+        bank: self,
+        id: data['uuid'],
+        name: data['name'],
+        balance: data['balance'],
+        currency: 'EUR',
+        investment: data['investment']
       )
     end
 
