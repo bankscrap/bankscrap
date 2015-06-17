@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}']
-  spec.executables   = spec.files.grep(/^bin\//) { |f| File.basename(f) }
+  spec.executables   << 'bank_scrap'
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
 
