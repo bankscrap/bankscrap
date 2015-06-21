@@ -57,7 +57,6 @@ module BankScrap
     # Returns an array of BankScrap::Transaction objects
     def fetch_transactions_for(account, start_date: Date.today - 1.month, end_date: Date.today)
       from_date = start_date.strftime('%Y-%m-%d')
-      to_date   = end_date.strftime('%Y-%m-%d')
 
       # Misteriously we need a specific content-type here
       funny_headers = {
@@ -65,24 +64,36 @@ module BankScrap
         'BBVA-Method' => 'GET'
       }
 
+      # The API accepts a toDate param that we could pass the end_date argument,
+      # however when we pass the toDate param, the API stops returning the account balance.
+      # Therefore we need to take a workaround: only filter with fromDate and loop
+      # over all the available pages, filtering out the movements that doesn't match
+      # the end_date argument.
       url = BASE_ENDPOINT +
             ACCOUNT_ENDPOINT +
             account.id +
-            "/movements/v1?fromDate=#{from_date}&toDate=#{to_date}"
+            "/movements/v1?fromDate=#{from_date}"
+
       offset = nil
+      pagination_balance = nil
       transactions = []
 
       with_headers(funny_headers) do
         # Loop over pagination
         loop do
           new_url = offset ? (url + "&offset=#{offset}") : url
+          new_url = pagination_balance ? (new_url + "&paginationBalance=#{pagination_balance}") : new_url
           json = JSON.parse(post(new_url, {}))
 
           unless json['movements'].blank?
-            transactions += json['movements'].map do |data|
+            # As explained before, we have to discard records newer than end_date.
+            filtered_movements = json['movements'].select { |m| Date.parse(m['operationDate']) <= end_date }
+
+            transactions += filtered_movements.map do |data|
               build_transaction(data, account)
             end
             offset = json['offset']
+            pagination_balance = json['paginationBalance']
           end
 
           break unless json['thereAreMoreMovements'] == true
