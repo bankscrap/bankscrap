@@ -23,7 +23,7 @@ We are developers and we don't want to waste time doing things we are able to au
 
 There are two approaches to solve this problem: 
 - Web scraping on the bank's site.
-- Reverse engineering the bank's mobile app to use the same API the app uses.
+- Reverse engineering the bank's mobile app or the bank's single page web app (if they have one) to use the same API.
 
 BankScrap uses both methods depending on the bank.
 
