@@ -2,12 +2,12 @@ require 'json'
 
 module BankScrap
   class Bbva < Bank
-    BASE_ENDPOINT     = 'https://bancamovil.grupobbva.com'
+    BASE_ENDPOINT     = 'https://servicios.bbva.es'
     LOGIN_ENDPOINT    = '/DFAUTH/slod/DFServletXML'
     PRODUCTS_ENDPOINT = '/ENPP/enpp_mult_web_mobility_02/products/v1'
     ACCOUNT_ENDPOINT  = '/ENPP/enpp_mult_web_mobility_02/accounts/'
     # BBVA expects an identifier before the actual User Agent, but 12345 works fine
-    USER_AGENT        = '12345;Android;LGE;Nexus 5;1080x1776;Android;4.4.4;BMES;4.0.4'
+    USER_AGENT        = '12345;Android;LGE;Nexus 5;1080x1776;Android;5.1.1;BMES;4.4;xxhd'
 
     def initialize(user, password, log: false, debug: false, extra_args: nil)
       @user = format_user(user.dup)
@@ -126,8 +126,7 @@ module BankScrap
         'origen'         => 'enpp',
         'eai_tipoCP'     => 'up',
         'eai_user'       => @user,
-        'eai_password'   => @password,
-        'eai_URLDestino' => '/ENPP/enpp_mult_web_mobility_02/sessions/v1'
+        'eai_password'   => @password
       }
       post(BASE_ENDPOINT + LOGIN_ENDPOINT, params)
     end
