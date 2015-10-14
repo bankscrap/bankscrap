@@ -81,7 +81,7 @@ module BankScrap
 
       transactions = []
       loop do
-        request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params)
+        request = get("#{PRODUCTS_ENDPOINT}/#{account.id}/movements", params: params)
         json = JSON.parse(request)
         transactions += (json['elements'] || []).map do |transaction|
           build_transaction(transaction, account)
@@ -116,7 +116,7 @@ module BankScrap
         device: 'desktop'
       }
 
-      response = JSON.parse(post(LOGIN_ENDPOINT, params.to_json))
+      response = JSON.parse(post(LOGIN_ENDPOINT, fields: params.to_json))
       current_pinpad_paths = save_pinpad_numbers(response['pinpad'])
       pinpad_numbers = recognize_pinpad_numbers(current_pinpad_paths)
 
@@ -124,7 +124,8 @@ module BankScrap
     end
 
     def pass_pinpad(positions)
-      response = put(LOGIN_ENDPOINT, { pinPositions: positions }.to_json)
+      fields = { pinPositions: positions }
+      response = put(LOGIN_ENDPOINT, fields: fields.to_json)
       JSON.parse(response)['ticket']
     end
 
@@ -135,7 +136,7 @@ module BankScrap
       )
 
       params = "ticket=#{ticket}&device=desktop"
-      post(POST_AUTH_ENDPOINT, params)
+      post(POST_AUTH_ENDPOINT, fields: params)
     end
 
     def save_pinpad_numbers(pinpad)

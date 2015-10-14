@@ -32,15 +32,15 @@ module BankScrap
 
     private
 
-    def get(url, params = {})
-      @http.get(url, params).body
+    def get(url, params: [], referer: nil)
+      @http.get(url, params, referer, @headers).body
     end
 
-    def post(url, fields)
+    def post(url, fields: {})
       @http.post(url, fields, @headers).body
     end
 
-    def put(url, fields)
+    def put(url, fields: {})
       @http.put(url, fields, @headers).body
     end
 

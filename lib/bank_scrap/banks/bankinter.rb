@@ -65,7 +65,7 @@ module BankScrap
         'anioH' => end_date.strftime("%Y"),
       }
 
-      response = post(BASE_ENDPOINT + TRANSACTIONS_ENDPOINT, fields)
+      response = post(BASE_ENDPOINT + TRANSACTIONS_ENDPOINT, fields: fields)
 
       html_doc = Nokogiri::HTML(response)
 
@@ -93,7 +93,7 @@ module BankScrap
         @login_field => @login_param
       }
 
-      response = post(BASE_ENDPOINT + LOGIN_ENDPOINT, fields)
+      response = post(BASE_ENDPOINT + LOGIN_ENDPOINT, fields: fields)
 
       response = get(BASE_ENDPOINT + '/www/es-es/cgi/ebk+opr+extractointegral')
 
@@ -131,7 +131,7 @@ module BankScrap
         currency: data['currency'],
         description: data['description'],
         iban: data['iban']
-      )  
+      )
     end
 
     def build_transaction(data, account)
@@ -147,6 +147,6 @@ module BankScrap
         currency: data['currency'],
         balance: balance
       )
-    end 
+    end
   end
 end

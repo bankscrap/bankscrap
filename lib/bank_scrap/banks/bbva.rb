@@ -42,7 +42,7 @@ module BankScrap
       # the API requires a funny header that says is a GET
       # otherwise the request doesn't work.
       response = with_headers('BBVA-Method' => 'GET') do
-        post(BASE_ENDPOINT + PRODUCTS_ENDPOINT, {})
+        post(BASE_ENDPOINT + PRODUCTS_ENDPOINT)
       end
 
       json = JSON.parse(response)
@@ -83,7 +83,7 @@ module BankScrap
         loop do
           new_url = offset ? (url + "&offset=#{offset}") : url
           new_url = pagination_balance ? (new_url + "&paginationBalance=#{pagination_balance}") : new_url
-          json = JSON.parse(post(new_url, {}))
+          json = JSON.parse(post(new_url))
 
           unless json['movements'].blank?
             # As explained before, we have to discard records newer than end_date.
@@ -128,7 +128,7 @@ module BankScrap
         'eai_user'       => @user,
         'eai_password'   => @password
       }
-      post(BASE_ENDPOINT + LOGIN_ENDPOINT, params)
+      post(BASE_ENDPOINT + LOGIN_ENDPOINT, fields: params)
     end
 
     # Build an Account object from API data
