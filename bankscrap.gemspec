@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bank_scrap/version'
+require 'bankscrap/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'bank_scrap'
+  spec.name          = 'bankscrap'
   spec.version       = BankScrap::VERSION
   spec.authors       = [
     'Ismael Sánchez',
@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}']
-  spec.executables   << 'bank_scrap'
+  spec.executables   << 'bankscrap'
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
 
