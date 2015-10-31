@@ -10,6 +10,8 @@ require_relative 'bankscrap/account'
 require_relative 'bankscrap/investment'
 require_relative 'bankscrap/transaction'
 
-module BankScrap
-  autoload :Bbva, 'bankscrap-bbva'
+['bbva'].each do |bank|
+  if Gem::Specification::find_by_name("bankscrap-#{bank}")
+    require "bankscrap-#{bank}"
+  end
 end
