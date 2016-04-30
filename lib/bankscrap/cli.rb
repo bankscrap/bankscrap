@@ -2,7 +2,7 @@ require 'thor'
 require 'active_support/core_ext/string'
 
 module Bankscrap
-  class Cli < Thor
+  class CLI < Thor
     def self.shared_options
       option :user,     default: ENV['BANKSCRAP_USER']
       option :password, default: ENV['BANKSCRAP_PASSWORD']
