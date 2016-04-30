@@ -9,7 +9,7 @@ Feel free to contribute and add your bank if it isn't supported.
 ## Supported banks
 
 * **BBVA**: [bankscrap-bbva](https://github.com/bankscrap/bankscrap-bbva)
-* **ING Direct**: [bankscrap-bbva](https://github.com/bankscrap/bankscrap-ing)
+* **ING Direct**: [bankscrap-ing](https://github.com/bankscrap/bankscrap-ing)
 * **Banc Sabadell** (WIP): [bankscrap-banc-sabadell](https://github.com/bankscrap/bankscrap-banc-sabadell)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
