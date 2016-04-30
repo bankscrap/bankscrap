@@ -9,6 +9,9 @@ module Bankscrap
       option :log,      default: false
       option :debug,    default: false
 
+      option :format
+      option :output
+
       # Some bank needs more input, like birthday, this would go here
       # Usage:
       # bankscrap balance BANK_NAME --extra=birthday:01/12/1980
@@ -32,7 +35,8 @@ module Bankscrap
     options from: :string, to: :string
     def transactions(bank, iban = nil)
       assign_shared_options
-      start_date = parse_date(options[:from]) if options[:from] 
+
+      start_date = parse_date(options[:from]) if options[:from]
       end_date = parse_date(options[:to]) if options[:to]
 
       initialize_client_for(bank)
@@ -50,8 +54,9 @@ module Bankscrap
         transactions = account.transactions
       end
 
-      say "Transactions for: #{account.description} (#{account.iban})", :cyan
+      export_to_file(transactions, options[:format], options[:output]) if options[:format]
 
+      say "Transactions for: #{account.description} (#{account.iban})", :cyan
       transactions.each do |transaction|
         say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
       end
@@ -86,6 +91,19 @@ module Bankscrap
     rescue ArgumentError
       say 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)', :red
       exit
+    end
+
+    def export_to_file(data, format, path)
+      exporter(format, path).write_to_file(data)
+    end
+
+    def exporter(format, path)
+      case format.downcase
+      when 'csv' then BankScrap::Exporter::Csv.new(path)
+      else
+        say 'Sorry, file format not supported.', :red
+        exit
+      end
     end
   end
 end

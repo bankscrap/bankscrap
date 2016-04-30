@@ -90,6 +90,12 @@ If you don't want to pass your user and password everytime you can define them i
     export BANK_SCRAP_USER=YOUR_BANK_USER
     export BANK_SCRAP_PASSWORD=YOUR_BANK_PASSWORD
 
+#### Export transactions to CSV
+
+    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --format CSV [--output ./my_transactions.csv]
+
+Currently only CSV is supported. The output parameter is optional, by default `transactions.csv` is used.
+
 ### From Ruby code
 
 You can also use this gem from your own app as library. To do so first you must initialize a BankScrap::Bank object
