@@ -29,13 +29,14 @@ module Bankscrap
 
     desc 'transactions BANK', "get account's transactions"
     shared_options
+    options from: :string, to: :string
     def transactions(bank, iban = nil)
       assign_shared_options
 
       begin
-        start_date = @extra_args.key?('from') ? Date.strptime(@extra_args['from'], '%d-%m-%Y') : nil
-        end_date = @extra_args.key?('to') ? Date.strptime(@extra_args['to'], '%d-%m-%Y') : nil
-      rescue ArgumentError
+        start_date = options.key?("from") ? Date.strptime(options[:from], '%d-%m-%Y') : nil
+        end_date = options.key?("to") ? Date.strptime(options[:to], '%d-%m-%Y') : nil
+      rescue ArgumentError => e
         say 'Invalid date format. Correct format d-m-Y', :red
       end
 

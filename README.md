@@ -77,7 +77,7 @@ Replace 01/01/1980 with your actual birthday.
 
 #### Transactions with date range
 
-    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
+    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --from 01-01-2015 --to 01-02-2015
 
 ---
 
