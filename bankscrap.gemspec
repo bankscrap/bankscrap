@@ -7,19 +7,17 @@ Gem::Specification.new do |spec|
   spec.name          = 'bankscrap'
   spec.version       = Bankscrap::VERSION
   spec.authors       = [
-    'Ismael Sánchez',
     'Javier Cuevas',
-    'Fernando Blat',
     'Raúl Marcos'
   ]
-  spec.email         = ['root@ismagnu.com']
-  spec.summary       = %q{Get your bank account details.}
-  spec.description   = %q{Command line tools to get bank account details from some banks.}
-  spec.homepage      = "https://github.com/bank-scrap/bank_scrap"
-  spec.license       = "MIT"
+  spec.email         = ['javi@diacode.com', 'raulmarcosl@gmail.com']
+  spec.summary       = 'Get your bank account details.'
+  spec.description   = 'Command line tools to get bank account details from some banks.'
+  spec.homepage      = 'https://github.com/bank-scrap/bank_scrap'
+  spec.license       = 'MIT'
 
   spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}']
-  spec.executables   << 'bankscrap'
+  spec.executables << 'bankscrap'
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
 
@@ -28,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake',    '~> 10.0'
   spec.add_development_dependency 'byebug',  '~> 3.5', '>= 3.5.1'
+  spec.add_development_dependency 'rubocop', '~> 0.39.0'
 
   spec.add_dependency 'thor',          '~> 0.19'
   spec.add_dependency 'mechanize',     '~> 2.7.4'

@@ -33,23 +33,23 @@ module Bankscrap
       assign_shared_options
 
       begin
-        start_date = @extra_args.has_key?('from') ? Date.strptime(@extra_args['from'],'%d-%m-%Y') : nil
-        end_date = @extra_args.has_key?('to') ? Date.strptime(@extra_args['to'],'%d-%m-%Y') : nil
+        start_date = @extra_args.key?('from') ? Date.strptime(@extra_args['from'], '%d-%m-%Y') : nil
+        end_date = @extra_args.key?('to') ? Date.strptime(@extra_args['to'], '%d-%m-%Y') : nil
       rescue ArgumentError
-        say "Invalid date format. Correct format d-m-Y", :red
+        say 'Invalid date format. Correct format d-m-Y', :red
       end
 
       initialize_client_for(bank)
 
       account = iban ? @client.account_with_iban(iban) : @client.accounts.first
 
-      if (!start_date.nil? && !end_date.nil?)
-        if (start_date > end_date)
-          say "From date must be lower than to date", :red
+      if !start_date.nil? && !end_date.nil?
+        if start_date > end_date
+          say 'From date must be lower than to date', :red
           exit
         end
 
-        transactions = account.fetch_transactions(start_date:start_date, end_date:end_date)
+        transactions = account.fetch_transactions(start_date: start_date, end_date: end_date)
       else
         transactions = account.transactions
       end

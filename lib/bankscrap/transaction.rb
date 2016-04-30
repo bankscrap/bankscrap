@@ -25,4 +25,3 @@ module Bankscrap
     end
   end
 end
-

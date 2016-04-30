@@ -2,9 +2,7 @@ module Bankscrap
   class Account
     include Utils::Inspectable
 
-    attr_accessor :bank, :id, :name, :balance, :currency,
-                  :available_balance, :description,
-                  :transactions, :iban, :bic
+    attr_accessor :bank, :id, :name, :balance, :currency, :available_balance, :description, :transactions, :iban, :bic
 
     def initialize(params = {})
       params.each { |key, value| send "#{key}=", value }
@@ -21,12 +19,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      [
-        :id, :name, :balance, :currency,
-        :available_balance, :description,
-        :iban, :bic
-      ]
+      %i(id name balance currency available_balance description iban bic)
     end
   end
 end
-
