@@ -32,7 +32,7 @@ module Bankscrap
     options from: :string, to: :string
     def transactions(bank, iban = nil)
       assign_shared_options
-      start_date = Date.strptime(options[:from], '%d-%m-%Y') if options[:to] 
+      start_date = Date.strptime(options[:from], '%d-%m-%Y') if options[:from] 
       end_date = Date.strptime(options[:to], '%d-%m-%Y') if options[:to]
 
       initialize_client_for(bank)
