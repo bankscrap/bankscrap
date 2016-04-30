@@ -1,4 +1,4 @@
-module BankScrap
+module Bankscrap
   class Account
     include Utils::Inspectable
 

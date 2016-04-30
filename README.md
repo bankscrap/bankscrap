@@ -1,4 +1,4 @@
-# BankScrap
+# Bankscrap
 
 [![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
 
@@ -8,20 +8,19 @@ Feel free to contribute and add your bank if it isn't supported.
 
 ## Supported banks
 
-|                 |  BBVA  | ING Direct | Bankinter |
-|-----------------|:------:|:----------:|:---------:|
-| Account Balance |    ✓   |      ✓     |     ✓     |
-|  Transactions   |    ✓   |      ✓     |     ✓     |
+* **BBVA**: [bankscrap-bbva](https://github.com/bankscrap/bankscrap-bbva)
+* **ING Direct**: [bankscrap-ing](https://github.com/bankscrap/bankscrap-ing)
+* **Banc Sabadell** (WIP): [bankscrap-banc-sabadell](https://github.com/bankscrap/bankscrap-banc-sabadell)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
- 
+
 ## Background and motivation
 
 Most banks don't offer public APIs and the only way to access your data (balance and transactions) is through their websites... and most bank websites are a f*cking nightmare.
 
 We are developers and we don't want to waste time doing things we are able to automate. Having to perform 20 clicks in an awful website just to check how much money we have is not something we like.
 
-There are two approaches to solve this problem: 
+There are two approaches to solve this problem:
 - Web scraping on the bank's site.
 - Reverse engineering the bank's mobile app or the bank's single page web app (if they have one) to use the same API.
 
@@ -33,21 +32,23 @@ Some banks needs a JavaScript runtime in order to work. So if you find an error 
 
 ## Installation
 
-### From Git
-
-You can check out the latest source from git:
-
-    git clone git://github.com/bank-scrap/bank_scrap
-
-### From RubyGems
-
 Installation from RubyGems:
 
-    gem install bank_scrap
+    # BBVA
+    gem install bankscrap-bbva
+
+    # ING
+    gem install bankscrap-ing
 
 Or, if you're using Bundler, just add the following to your Gemfile:
 
-    gem 'bank_scrap'
+    # BBVA
+    gem 'bankscrap-bbva'
+
+    # ING
+    gem 'bankscrap-ing'
+
+Note that you only need to install the gem for your selected bank – the main gem (`bankscrap`) will be installed as a dependency.
 
 ## Usage
 
@@ -56,33 +57,33 @@ Or, if you're using Bundler, just add the following to your Gemfile:
 
 ###### BBVA | Bankinter
 
-    $ bank_scrap balance your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
+    $ bankscrap balance your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
 
 ###### ING Direct
 ING needs one more argument: your birthday.
 
-    $ bank_scrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
 
 #### Transactions for last 30 days
 ###### BBVA
 
-    $ bank_scrap transactions bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+    $ bankscrap transactions bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
 ###### ING Direct
 
-    $ bank_scrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 #### Transactions with date range
 
-    $ bank_scrap transactions your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
+    $ bankscrap transactions your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
 
 ---
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
-    $ bank_scrap transactions your_bank your_iban --user YOUR_DNI --password YOUR_PASSWORD
+    $ bankscrap transactions your_bank your_iban --user YOUR_DNI --password YOUR_PASSWORD
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
@@ -95,13 +96,11 @@ You can also use this gem from your own app as library. To do so first you must 
 
 
 ```ruby
-require 'bank_scrap'
+require 'bankscrap-bbva'
 # BBVA
-bbva = BankScrap::Bbva.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+bbva = Bankscrap::BBVA::Bank.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
 # ING
-ing = BankScrap::Ing.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
-# BANKINTER
-bankinter = BankScrap::Bankinter.new(YOUR_BANKINTER_USER, YOUR_BANKINTER_PASSWORD)
+ing = Bankscrap::ING::Bank.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
 ```
 
 
@@ -145,4 +144,4 @@ account.transactions
 
 ## Thanks
 
-Thanks to Javier Cuevas (@javiercr) for his Bbva gem.
+Thanks to Javier Cuevas (@javiercr) for his [BBVA](https://github.com/javiercr/bbva) gem.

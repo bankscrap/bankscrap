@@ -1,17 +1,17 @@
 require 'thor'
 require 'active_support/core_ext/string'
 
-module BankScrap
-  class Cli < Thor
+module Bankscrap
+  class CLI < Thor
     def self.shared_options
-      option :user,     default: ENV['BANK_SCRAP_USER']
-      option :password, default: ENV['BANK_SCRAP_PASSWORD']
+      option :user,     default: ENV['BANKSCRAP_USER']
+      option :password, default: ENV['BANKSCRAP_PASSWORD']
       option :log,      default: false
       option :debug,    default: false
 
       # Some bank needs more input, like birthday, this would go here
       # Usage:
-      # bank_scrap balance BANK_NAME --extra=birthday:01/12/1980
+      # bankscrap balance BANK_NAME --extra=birthday:01/12/1980
       option :extra, type: :hash, default: {}
     end
 
@@ -31,8 +31,8 @@ module BankScrap
     shared_options
     def transactions(bank, iban = nil)
       assign_shared_options
-    
-      begin 
+
+      begin
         start_date = @extra_args.has_key?('from') ? Date.strptime(@extra_args['from'],'%d-%m-%Y') : nil
         end_date = @extra_args.has_key?('to') ? Date.strptime(@extra_args['to'],'%d-%m-%Y') : nil
       rescue ArgumentError
@@ -77,9 +77,12 @@ module BankScrap
     end
 
     def find_bank_class_for(bank_name)
-      Object.const_get('BankScrap::' + bank_name.classify)
+      require "bankscrap-#{bank_name.downcase}"
+      Object.const_get("Bankscrap::#{bank_name}::Bank")
+    rescue LoadError
+      raise ArgumentError.new('Invalid bank name.')
     rescue NameError
-      raise ArgumentError.new('Invalid bank name')
+      raise ArgumentError.new("Invalid bank name. Did you mean \"#{bank_name.upcase}\"?")
     end
   end
 end
