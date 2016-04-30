@@ -1,4 +1,4 @@
-module BankScrap
+module Bankscrap
   module Utils
     module Inspectable
       def inspect

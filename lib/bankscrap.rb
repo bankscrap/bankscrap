@@ -9,9 +9,3 @@ require_relative 'bankscrap/bank'
 require_relative 'bankscrap/account'
 require_relative 'bankscrap/investment'
 require_relative 'bankscrap/transaction'
-
-['bbva'].each do |bank|
-  if Gem::Specification::find_by_name("bankscrap-#{bank}")
-    require "bankscrap-#{bank}"
-  end
-end

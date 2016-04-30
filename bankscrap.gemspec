@@ -5,7 +5,7 @@ require 'bankscrap/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'bankscrap'
-  spec.version       = BankScrap::VERSION
+  spec.version       = Bankscrap::VERSION
   spec.authors       = [
     'Ismael Sánchez',
     'Javier Cuevas',
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'byebug',  '~> 3.5', '>= 3.5.1'
 
   spec.add_dependency 'thor',          '~> 0.19'
-  spec.add_dependency 'mechanize',     '~> 2.7.3'
+  spec.add_dependency 'mechanize',     '~> 2.7.4'
   spec.add_dependency 'activesupport', '~> 4.1'
   spec.add_dependency 'money',         '~> 6.5.0'
 end

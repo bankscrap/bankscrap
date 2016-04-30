@@ -1,7 +1,7 @@
 require 'thor'
 require 'active_support/core_ext/string'
 
-module BankScrap
+module Bankscrap
   class Cli < Thor
     def self.shared_options
       option :user,     default: ENV['BANKSCRAP_USER']
@@ -77,7 +77,7 @@ module BankScrap
     end
 
     def find_bank_class_for(bank_name)
-      Object.const_get('BankScrap::' + bank_name.classify)
+      Object.const_get('Bankscrap::' + bank_name.classify)
     rescue NameError
       raise ArgumentError.new('Invalid bank name')
     end
