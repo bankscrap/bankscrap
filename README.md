@@ -1,4 +1,4 @@
-# Bankscrap
+# 💰 Bankscrap 💰
 
 [![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
 
