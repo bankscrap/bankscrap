@@ -77,9 +77,12 @@ module Bankscrap
     end
 
     def find_bank_class_for(bank_name)
-      Object.const_get('Bankscrap::' + bank_name.classify)
+      require "bankscrap-#{bank_name.downcase}"
+      Object.const_get("Bankscrap::#{bank_name}::Bank")
+    rescue LoadError
+      raise ArgumentError.new('Invalid bank name.')
     rescue NameError
-      raise ArgumentError.new('Invalid bank name')
+      raise ArgumentError.new("Invalid bank name. Did you mean \"#{bank_name.upcase}\"?")
     end
   end
 end
