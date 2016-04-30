@@ -83,7 +83,7 @@ Replace 01/01/1980 with your actual birthday.
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
-    $ bankscrap transactions YourBank your_iban --user YOUR_DNI --password YOUR_PASSWORD
+    $ bankscrap transactions YourBank --iban "your_iban" --user YOUR_DNI --password YOUR_PASSWORD
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 

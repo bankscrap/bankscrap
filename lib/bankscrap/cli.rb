@@ -8,6 +8,7 @@ module Bankscrap
       option :password, default: ENV['BANKSCRAP_PASSWORD']
       option :log,      default: false
       option :debug,    default: false
+      option :iban,     default: nil
 
       option :format
       option :output
@@ -33,7 +34,7 @@ module Bankscrap
     desc 'transactions BANK', "get account's transactions"
     shared_options
     options from: :string, to: :string
-    def transactions(bank, iban = nil)
+    def transactions(bank)
       assign_shared_options
 
       start_date = parse_date(options[:from]) if options[:from]
@@ -41,7 +42,7 @@ module Bankscrap
 
       initialize_client_for(bank)
 
-      account = iban ? @client.account_with_iban(iban) : @client.accounts.first
+      account = @iban ? @client.account_with_iban(@iban) : @client.accounts.first
 
       if start_date && end_date
         if start_date > end_date
@@ -67,6 +68,7 @@ module Bankscrap
     def assign_shared_options
       @user       = options[:user]
       @password   = options[:password]
+      @iban       = options[:iban]
       @log        = options[:log]
       @debug      = options[:debug]
       @extra_args = options[:extra]
