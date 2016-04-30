@@ -33,12 +33,8 @@ module Bankscrap
     def transactions(bank, iban = nil)
       assign_shared_options
 
-      begin
-        start_date = options.key?("from") ? Date.strptime(options[:from], '%d-%m-%Y') : nil
-        end_date = options.key?("to") ? Date.strptime(options[:to], '%d-%m-%Y') : nil
-      rescue ArgumentError => e
-        say 'Invalid date format. Correct format d-m-Y', :red
-      end
+      start_date = options.key?("from") ? Date.strptime(options[:from], '%d-%m-%Y') : nil
+      end_date = options.key?("to") ? Date.strptime(options[:to], '%d-%m-%Y') : nil
 
       initialize_client_for(bank)
 
@@ -60,6 +56,8 @@ module Bankscrap
       transactions.each do |transaction|
         say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
       end
+    rescue ArgumentError
+      say 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)', :red
     end
 
     private
