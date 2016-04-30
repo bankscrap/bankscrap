@@ -32,15 +32,14 @@ module Bankscrap
     options from: :string, to: :string
     def transactions(bank, iban = nil)
       assign_shared_options
-
-      start_date = options.key?("from") ? Date.strptime(options[:from], '%d-%m-%Y') : nil
-      end_date = options.key?("to") ? Date.strptime(options[:to], '%d-%m-%Y') : nil
+      start_date = Date.strptime(options[:from], '%d-%m-%Y') if options[:to] 
+      end_date = Date.strptime(options[:to], '%d-%m-%Y') if options[:to]
 
       initialize_client_for(bank)
 
       account = iban ? @client.account_with_iban(iban) : @client.accounts.first
 
-      if !start_date.nil? && !end_date.nil?
+      if start_date && end_date
         if start_date > end_date
           say 'From date must be lower than to date', :red
           exit
