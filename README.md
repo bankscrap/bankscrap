@@ -55,35 +55,35 @@ Note that you only need to install the gem for your selected bank – the main g
 ### From terminal
 #### Bank account balance
 
-###### BBVA | Bankinter
+###### BBVA
 
-    $ bankscrap balance your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
+    $ bankscrap balance YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
 
 ###### ING Direct
 ING needs one more argument: your birthday.
 
-    $ bankscrap balance ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap balance ING --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
 
 #### Transactions for last 30 days
 ###### BBVA
 
-    $ bankscrap transactions bbva --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+    $ bankscrap transactions BBVA --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
 
 ###### ING Direct
 
-    $ bankscrap transactions ing --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap transactions ING --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
 
 #### Transactions with date range
 
-    $ bankscrap transactions your_bank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
+    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --extra=from:01-01-2015 to:01-02-2015
 
 ---
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
-    $ bankscrap transactions your_bank your_iban --user YOUR_DNI --password YOUR_PASSWORD
+    $ bankscrap transactions YourBank your_iban --user YOUR_DNI --password YOUR_PASSWORD
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
