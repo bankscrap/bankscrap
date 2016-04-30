@@ -98,9 +98,9 @@ You can also use this gem from your own app as library. To do so first you must 
 ```ruby
 require 'bankscrap-bbva'
 # BBVA
-bbva = Bankscrap::BBVA.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+bbva = Bankscrap::BBVA::Bank.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
 # ING
-ing = Bankscrap::ING.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
+ing = Bankscrap::ING::Bank.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
 ```
 
 
