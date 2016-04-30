@@ -32,8 +32,8 @@ module Bankscrap
     options from: :string, to: :string
     def transactions(bank, iban = nil)
       assign_shared_options
-      start_date = Date.strptime(options[:from], '%d-%m-%Y') if options[:from] 
-      end_date = Date.strptime(options[:to], '%d-%m-%Y') if options[:to]
+      start_date = parse_date(options[:from]) if options[:from] 
+      end_date = parse_date(options[:to]) if options[:to]
 
       initialize_client_for(bank)
 
@@ -55,8 +55,6 @@ module Bankscrap
       transactions.each do |transaction|
         say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
       end
-    rescue ArgumentError
-      say 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)', :red
     end
 
     private
@@ -81,6 +79,13 @@ module Bankscrap
       raise ArgumentError.new('Invalid bank name.')
     rescue NameError
       raise ArgumentError.new("Invalid bank name. Did you mean \"#{bank_name.upcase}\"?")
+    end
+
+    def parse_date(string)
+      Date.strptime(string, '%d-%m-%Y')
+    rescue ArgumentError
+      say 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)', :red
+      exit
     end
   end
 end
