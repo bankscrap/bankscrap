@@ -80,7 +80,7 @@ module Bankscrap
     end
 
     def find_bank_class_for(bank_name)
-      require "bankscrap-#{bank_name.downcase}"
+      require "bankscrap-#{bank_name.underscore.dasherize}"
       Object.const_get("Bankscrap::#{bank_name}::Bank")
     rescue LoadError
       raise ArgumentError.new('Invalid bank name.')
