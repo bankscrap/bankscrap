@@ -1,0 +1,2 @@
+require_relative 'bankscrap/<%= bank_name_dasherized %>/bank'
+require_relative 'bankscrap/<%= bank_name_dasherized %>/version'

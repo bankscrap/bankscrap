@@ -1,5 +1,9 @@
 require 'thor'
 require 'active_support/core_ext/string'
+Dir[File.expand_path("../../..", __FILE__) + "/generators/*.rb"].each do |generator|
+  require generator
+end
+
 
 module Bankscrap
   class CLI < Thor
@@ -62,6 +66,10 @@ module Bankscrap
         say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
       end
     end
+
+
+    register(Bankscrap::AdapterGenerator, "generate_adapter", "generate_adapter MyBankName", 
+      "generates a template for a new Bankscrap bank adapter")
 
     private
 

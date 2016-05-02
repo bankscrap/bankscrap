@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/bank-scrap/bank_scrap'
   spec.license       = 'MIT'
 
-  spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}']
+  spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}', 'generators/**/{*,.[a-z]*}']
   spec.executables << 'bankscrap'
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']

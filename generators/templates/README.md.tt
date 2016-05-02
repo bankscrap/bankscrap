@@ -1,0 +1,56 @@
+# Bankscrap::<%= module_name %>
+
+Bankscrap adapter for <%= bank_name %>
+
+**TODO**: write a proper description for your adapter.
+
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem '<%= gem_name %>'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install <%= gem_name %>
+
+## Usage
+
+### From terminal
+#### Bank account balance
+
+    $ bankscrap balance <%= module_name %> --user YOUR_USER --password YOUR_PASSWORD --extra=company_code:YOUR_COMPANY_CODE
+
+
+#### Transactions
+
+    $ bankscrap transactions <%= module_name %> --user YOUR_USER --password YOUR_PASSWORD --extra=company_code:YOUR_COMPANY_CODE
+
+---
+
+For more details on usage instructions please read [Bankscrap readme](https://github.com/bankscrap/bankscrap/#usage).
+
+### From Ruby code
+
+**TODO**: check if your bank adapter needs more extra_args for the initializer.
+
+```ruby
+require '<%= gem_name %>'
+<%= bank_name.underscore %> = Bankscrap::<%= module_name %>::Bank.new(YOUR_USER, YOUR_PASSWORD, extra_args: {arg: EXTRA_ARG_1})
+```
+
+
+## Contributing
+
+1. Fork it ( https://github.com/bankscrap/<%= gem_name %>/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
