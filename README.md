@@ -11,6 +11,7 @@ Feel free to contribute and add your bank if it isn't supported.
 * **BBVA** (personal accounts): [bankscrap-bbva](https://github.com/bankscrap/bankscrap-bbva)
 * **BBVA Net Cash** (business accounts): [bankscrap-bbva-net-cash](https://github.com/bankscrap/bankscrap-bbva-net-cash)
 * **ING Direct**: [bankscrap-ing](https://github.com/bankscrap/bankscrap-ing)
+* **Arquia Banca**: [bankscrap-arquia](https://github.com/bankscrap/bankscrap-arquia)
 * **Banc Sabadell** (WIP): [bankscrap-banc-sabadell](https://github.com/bankscrap/bankscrap-banc-sabadell)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
