@@ -79,11 +79,11 @@ module Bankscrap
         Transaction.new(
           account: account,
           id: REPLACE_ME,
-          amount: REPLACE_ME,
+          amount: REPLACE_ME, # Should be a Money object
           description: REPLACE_ME,
           effective_date: REPLACE_ME,
-          currency: REPLACE_ME, # Should be a Money object
-          balance: REPLACE_ME   # Should be a Money object
+          currency: REPLACE_ME, 
+          balance: REPLACE_ME  # Should be a Money object
         )
       end
     end
