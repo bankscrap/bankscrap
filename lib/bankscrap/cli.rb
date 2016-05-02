@@ -19,11 +19,11 @@ module Bankscrap
 
       # Some bank needs more input, like birthday, this would go here
       # Usage:
-      # bankscrap balance BANK_NAME --extra=birthday:01/12/1980
+      # bankscrap balance BankName --extra=birthday:01/12/1980
       option :extra, type: :hash, default: {}
     end
 
-    desc 'balance BANK', "get accounts' balance"
+    desc 'balance BankName', "get accounts' balance"
     shared_options
     def balance(bank)
       assign_shared_options
@@ -35,7 +35,7 @@ module Bankscrap
       end
     end
 
-    desc 'transactions BANK', "get account's transactions"
+    desc 'transactions BankName', "get account's transactions"
     shared_options
     options from: :string, to: :string
     def transactions(bank)
