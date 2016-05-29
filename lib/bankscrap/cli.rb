@@ -8,19 +8,12 @@ end
 module Bankscrap
   class CLI < Thor
     def self.shared_options
-      option :user,     default: ENV['BANKSCRAP_USER']
-      option :password, default: ENV['BANKSCRAP_PASSWORD']
-      option :log,      default: false
-      option :debug,    default: false
-      option :iban,     default: nil
-
+      option :credentials, default: {}, type: :hash
+      option :log,         default: false
+      option :debug,       default: false
+      option :iban,        default: nil
       option :format
       option :output
-
-      # Some bank needs more input, like birthday, this would go here
-      # Usage:
-      # bankscrap balance BankName --extra=birthday:01/12/1980
-      option :extra, type: :hash, default: {}
     end
 
     desc 'balance BankName', "get accounts' balance"
@@ -74,17 +67,15 @@ module Bankscrap
     private
 
     def assign_shared_options
-      @user       = options[:user]
-      @password   = options[:password]
+      @credentials       = options[:credentials]
       @iban       = options[:iban]
       @log        = options[:log]
       @debug      = options[:debug]
-      @extra_args = options[:extra]
     end
 
     def initialize_client_for(bank_name)
       bank_class = find_bank_class_for(bank_name)
-      @client = bank_class.new(@user, @password, log: @log, debug: @debug, extra_args: @extra_args)
+      @client = bank_class.new(@credentials, log: @log, debug: @debug)
     end
 
     def find_bank_class_for(bank_name)

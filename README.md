@@ -59,42 +59,47 @@ Note that you only need to install the gem for your selected bank – the main g
 
 ###### BBVA
 
-    $ bankscrap balance YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD
+    $ bankscrap balance YourBank --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD
 
 ###### ING Direct
 ING needs one more argument: your birthday.
 
-    $ bankscrap balance ING --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap balance ING --credentials=user:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
 
 #### Transactions for last 30 days
 ###### BBVA
 
-    $ bankscrap transactions BBVA --user YOUR_BBVA_USER --password YOUR_BBVA_PASSWORD
+    $ bankscrap transactions BBVA --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD
 
 ###### ING Direct
 
-    $ bankscrap transactions ING --user YOUR_DNI --password YOUR_PASSWORD --extra=birthday:01/01/1980
+    $ bankscrap transactions ING --credentials=user:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
 
 #### Transactions with date range
 
-    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --from 01-01-2015 --to 01-02-2015
+    $ bankscrap transactions YourBank --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD --from 01-01-2015 --to 01-02-2015
 
 ---
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
-    $ bankscrap transactions YourBank --iban "your_iban" --user YOUR_DNI --password YOUR_PASSWORD
+    $ bankscrap transactions YourBank --iban "your_iban" --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD 
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
-    export BANK_SCRAP_USER=YOUR_BANK_USER
-    export BANK_SCRAP_PASSWORD=YOUR_BANK_PASSWORD
+    export BANKSCRAP_[BANK_NAME]_USER=YOUR_BANK_USER
+    export BANKSCRAP_[BANK_NAME]_PASSWORD=YOUR_BANK_USER
+    export BANKSCRAP_[BANK_NAME]_ANY_OTHER_CREDENTIAL=ANY_OTHER_CREDENTIAL
+
+eg: 
+    export BANKSCRAP_BBVA_NET_CASH_USER=YOUR_BANK_USER
+
 
 #### Export transactions to CSV
 
-    $ bankscrap transactions YourBank --user YOUR_BANK_USER --password YOUR_BANK_PASSWORD --format CSV [--output ./my_transactions.csv]
+    $ bankscrap transactions YourBank --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD --format CSV [--output ./my_transactions.csv]
 
 Currently only CSV is supported. The output parameter is optional, by default `transactions.csv` is used.
 
@@ -106,7 +111,7 @@ You can also use this gem from your own app as library. To do so first you must 
 ```ruby
 # BBVA
 require 'bankscrap-bbva'
-bbva = Bankscrap::BBVA::Bank.new(YOUR_BBVA_USER, YOUR_BBVA_PASSWORD)
+bbva = Bankscrap::BBVA::Bank.new(user: YOUR_BBVA_USER, password: YOUR_BBVA_PASSWORD)
 
 # ING
 require 'bankscrap-ing'

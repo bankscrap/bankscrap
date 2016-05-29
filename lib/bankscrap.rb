@@ -10,3 +10,15 @@ require_relative 'bankscrap/account'
 require_relative 'bankscrap/investment'
 require_relative 'bankscrap/transaction'
 require_relative 'bankscrap/exporters/csv'
+
+module Bankscrap
+  class << self
+    attr_accessor :log
+    attr_accessor :debug
+    attr_accessor :proxy
+  end
+
+  self.log = false
+  self.debug = false
+  # self.proxy = {host: 'localhost', port: 8888}
+end

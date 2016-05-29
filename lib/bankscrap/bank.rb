@@ -7,11 +7,38 @@ module Bankscrap
                      'like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19'.freeze
     attr_accessor :headers, :accounts, :investments
 
-    def initialize(_user, _password, log: false, debug: false, extra_args: nil)
+    REQUIRED_CREDENTIALS = [:user, :password] 
+
+    class MissingCredential < ArgumentError; end
+
+    def initialize(credentials = {})
+      # Assign required credentials as env vars. 
+      # If empty, use ENV vars as fallback:
+      # BANKSCRAP_MY_BANK_USER, BANKSCRAP_MY_BANK_PASWORD, etc.
+      self.class::REQUIRED_CREDENTIALS.each do |field|
+        value = credentials.with_indifferent_access[field] || ENV["#{env_vars_prefix}_#{field.upcase}"]
+
+        if value.blank?
+          raise MissingCredential, "Missing credential: '#{field}'"
+        else
+          instance_variable_set("@#{field}", value)
+        end
+      end
+
+      initialize_http_client
+
+      # Bank adapters should use the yield block to do any required processing of credentials
+      yield if block_given?
+
+      login
       @accounts = fetch_accounts
     end
 
     # Interface method placeholders
+
+    def login
+      raise "#{self.class} should implement a login method"
+    end
 
     def fetch_accounts
       raise "#{self.class} should implement a fetch_account method"
@@ -64,19 +91,27 @@ module Bankscrap
       @http.get(url).body
     end
 
-    def initialize_connection
+    def initialize_http_client
       @http = Mechanize.new do |mechanize|
         mechanize.user_agent = WEB_USER_AGENT
         mechanize.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        mechanize.log = Logger.new(STDOUT) if @debug
-        # mechanize.set_proxy 'localhost', 8888
+        mechanize.log = Logger.new(STDOUT) if Bankscrap.debug
+
+        if Bankscrap.proxy
+          mechanize.set_proxy Bankscrap.proxy[:host], Bankscrap.proxy[:port]
+        end
       end
 
       @headers = {}
     end
 
     def log(msg)
-      puts msg if @log
+      puts msg if Bankscrap.log
+    end
+
+    # Prefix for env vars used to store credentials
+    def env_vars_prefix
+      self.class.parent.name.underscore.upcase.gsub('/', '_')
     end
   end
 end

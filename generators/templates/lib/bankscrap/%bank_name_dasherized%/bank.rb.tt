@@ -11,23 +11,20 @@ module Bankscrap
       # ACCOUNTS_ENDPOINT     = '/accounts'.freeze
       # TRANSACTIONS_ENDPOINT = '/transactions'.freeze
 
-      def initialize(user, password, log: false, debug: false, extra_args: nil)
-        @user = user
-        @password = password
-        @log = log
-        @debug = debug
-        # @extra_arg1 = extra_args.with_indifferent_access['extra_arg1']
+      # TODO: change this for the proper credentials required in your adapter.
+      # It can be anything (user, birthday, ID, whatever you need).
+      REQUIRED_CREDENTIALS  = [:user, :password, :any_other_credential]
 
-        initialize_connection
+      def initialize(credentials = {})
+        super do
+          # Here you can do further processing of the received credentials
+          # or add custom headers to the HTTP client
 
-        # Optional Custom headers
-        # user_agent = SecureRandom.hex(32).upcase + ';Android;LGE;Nexus 5;1080x1776;Android;5.1.1;BMES;4.4;xxhd'
-        # add_headers(
-        #   'User-Agent' => user_agent
-        # )
-
-        login
-        super
+          # user_agent = SecureRandom.hex(32).upcase + ';Android;LGE;Nexus 5;1080x1776;Android;5.1.1;BMES;4.4;xxhd'
+          # add_headers(
+          #   'User-Agent' => user_agent
+          # )
+        end
       end
 
       # Fetch all the accounts for the given user
