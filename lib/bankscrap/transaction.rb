@@ -2,11 +2,16 @@ module Bankscrap
   class Transaction
     include Utils::Inspectable
 
-    attr_accessor :id, :amount, :currency,
-                  :effective_date, :description,
+    class InvalidAmount < ArgumentError; end
+
+    attr_accessor :id, :amount, :description,
                   :balance, :account
 
     def initialize(params = {})
+      unless params[:amount].is_a?(Money)
+        raise InvalidAmount.new('amount should be a Money object')
+      end
+
       params.each { |key, value| send "#{key}=", value }
     end
 
@@ -16,6 +21,10 @@ module Bankscrap
 
     def to_a
       [effective_date.strftime('%d/%m/%Y'), description, amount]
+    end
+
+    def currency
+      amount.currency
     end
 
     private
