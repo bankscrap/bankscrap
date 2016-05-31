@@ -19,7 +19,7 @@ describe Bankscrap::Account do
       subject { Bankscrap::Account.new({balance: 100}) }
 
       it 'raise an exception' do
-        expect{subject}.to raise_error(Bankscrap::Account::InvalidBalance)
+        expect{subject}.to raise_error(Bankscrap::NotMoneyObjectError)
       end
     end
   end

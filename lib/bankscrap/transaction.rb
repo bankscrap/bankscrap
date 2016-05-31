@@ -2,15 +2,11 @@ module Bankscrap
   class Transaction
     include Utils::Inspectable
 
-    class InvalidAmount < ArgumentError; end
-
     attr_accessor :id, :amount, :description,
                   :balance, :account
 
     def initialize(params = {})
-      unless params[:amount].is_a?(Money)
-        raise InvalidAmount.new('amount should be a Money object')
-      end
+      raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
 
       params.each { |key, value| send "#{key}=", value }
     end
@@ -30,11 +26,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      [
-        :id, :amount, :currency,
-        :effective_date, :description,
-        :balance
-      ]
+      [ :id, :amount, :effective_date, :description, :balance ]
     end
   end
 end

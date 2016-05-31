@@ -18,6 +18,13 @@ module Bankscrap
     attr_accessor :proxy
   end
 
+  class NotMoneyObjectError < TypeError
+    def initialize(attribute)
+      super("#{attribute} should be a Money object")
+    end
+  end
+
+
   self.log = false
   self.debug = false
   # self.proxy = {host: 'localhost', port: 8888}

@@ -15,7 +15,7 @@ describe Bankscrap::Transaction do
       subject { Bankscrap::Transaction.new({amount: 100}) }
 
       it 'raise an exception' do
-        expect{subject}.to raise_error(Bankscrap::Transaction::InvalidAmount)
+        expect{subject}.to raise_error(Bankscrap::NotMoneyObjectError)
       end
     end
   end

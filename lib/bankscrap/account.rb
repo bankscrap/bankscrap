@@ -2,16 +2,13 @@ module Bankscrap
   class Account
     include Utils::Inspectable
     
-    class InvalidBalance < ArgumentError; end
-
     attr_accessor :bank, :id, :name, :balance, 
                   :available_balance, :description, 
                   :transactions, :iban, :bic
 
     def initialize(params = {})
-      unless params[:balance].is_a?(Money) && params[:available_balance].is_a?(Money)
-        raise InvalidBalance.new('balance and available_balance should be Money objects')
-      end
+      raise NotMoneyObjectError.new(:balance) unless params[:balance].is_a?(Money)
+      raise NotMoneyObjectError.new(:available_balance) unless params[:available_balance].is_a?(Money)
 
       params.each { |key, value| send "#{key}=", value }
     end
@@ -31,7 +28,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      %i(id name balance currency available_balance description iban bic)
+      %i(id name balance available_balance description iban bic)
     end
   end
 end
