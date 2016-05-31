@@ -24,7 +24,10 @@ module Bankscrap
 
       @client.accounts.each do |account|
         say "Account: #{account.description} (#{account.iban})", :cyan
-        say "Balance: #{account.balance}", :green
+        say "Balance: #{account.balance.format}", :green
+        if account.balance != account.available_balance
+          say "Available: #{account.available_balance.format}", :yellow
+        end
       end
     end
 
