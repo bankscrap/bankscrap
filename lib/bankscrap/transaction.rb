@@ -2,7 +2,7 @@ module Bankscrap
   class Transaction
     include Utils::Inspectable
 
-    attr_accessor :id, :amount, :description, :effective_date
+    attr_accessor :id, :amount, :description, :effective_date,
                   :balance, :account
 
     def initialize(params = {})
