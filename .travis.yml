@@ -3,4 +3,6 @@ rvm:
   - 2.2
   - 2.3.1
 cache: bundler
+notifications:
+  email: false
 script: bundle exec rspec spec
