@@ -26,12 +26,12 @@ Or install it yourself as:
 ### From terminal
 #### Bank account balance
 
-    $ bankscrap balance <%= module_name %> --user YOUR_USER --password YOUR_PASSWORD --extra=company_code:YOUR_COMPANY_CODE
+    $ bankscrap balance <%= module_name %> --credentials=user:YOUR_USER --password:YOUR_PASSWORD --any_other_credential:ANY_OTHER_CREDENTIAL
 
 
 #### Transactions
 
-    $ bankscrap transactions <%= module_name %> --user YOUR_USER --password YOUR_PASSWORD --extra=company_code:YOUR_COMPANY_CODE
+    $ bankscrap transactions <%= module_name %> --credentials=user:YOUR_USER --password:YOUR_PASSWORD --any_other_credential:ANY_OTHER_CREDENTIAL
 
 ---
 
@@ -39,11 +39,9 @@ For more details on usage instructions please read [Bankscrap readme](https://gi
 
 ### From Ruby code
 
-**TODO**: check if your bank adapter needs more extra_args for the initializer.
-
 ```ruby
 require '<%= gem_name %>'
-<%= bank_name.underscore %> = Bankscrap::<%= module_name %>::Bank.new(YOUR_USER, YOUR_PASSWORD, extra_args: {arg: EXTRA_ARG_1})
+<%= bank_name.underscore %> = Bankscrap::<%= module_name %>::Bank.new(user: YOUR_USER, password: YOUR_PASSWORD, any_other_credential: ANY_OTHER_CREDENTIAL)
 ```
 
 
