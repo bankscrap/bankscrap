@@ -75,7 +75,7 @@ Replace 01/01/1980 with your actual birthday.
 
 ###### ING Direct
 
-    $ bankscrap transactions ING --credentials=user:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
+    $ bankscrap transactions ING --credentials=nif:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
 
 #### Transactions with date range
 
@@ -115,7 +115,7 @@ bbva = Bankscrap::BBVA::Bank.new(user: YOUR_BBVA_USER, password: YOUR_BBVA_PASSW
 
 # ING
 require 'bankscrap-ing'
-ing = Bankscrap::ING::Bank.new(YOUR_DNI, YOUR_ING_PASSWORD, extra_args: {"birthday" => "dd/mm/yyyy"})
+ing = Bankscrap::ING::Bank.new(nif: YOUR_NIF, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
 ```
 
 
