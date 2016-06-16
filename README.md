@@ -1,7 +1,7 @@
 # 💸 Bankscrap 💸 
 
 [![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
-![build status](https://travis-ci.org/bankscrap/bankscrap.svg?branch=master)
+[![Build Status](https://travis-ci.org/bankscrap/bankscrap.svg?branch=master)](https://travis-ci.org/bankscrap/bankscrap)
 
 Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
 
