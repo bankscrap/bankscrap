@@ -58,9 +58,8 @@ module Bankscrap
       export_to_file(transactions, options[:format], options[:output]) if options[:format]
 
       say "Transactions for: #{account.description} (#{account.iban})", :cyan
-      transactions.each do |transaction|
-        say transaction.to_s, (transaction.amount > Money.new(0) ? :green : :red)
-      end
+      print_transactions_header
+      transactions.each { |t|  print_transaction(t) }
     end
 
 
@@ -110,6 +109,23 @@ module Bankscrap
         say 'Sorry, file format not supported.', :red
         exit
       end
+    end
+
+    def print_transactions_header
+      say "\n"
+      say "DATE".ljust(13)
+      say "DESCRIPTION".ljust(50) + "\s\s\s"
+      say "AMOUNT".rjust(15) + "\s\s\s"
+      say "BALANCE".rjust(15)
+      say "-" * 99 
+    end
+
+    def print_transaction(transaction)
+      color = (transaction.amount > Money.new(0) ? :green : :red)
+      say transaction.effective_date.strftime('%d/%m/%Y') + "\s\s\s"
+      say transaction.description.squish.truncate(50).ljust(50) + "\s\s\s", color
+      say transaction.amount.format.rjust(15) + "\s\s\s", color
+      say transaction.balance.format.rjust(15)
     end
   end
 end

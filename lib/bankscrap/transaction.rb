@@ -12,7 +12,7 @@ module Bankscrap
     end
 
     def to_s
-      "#{effective_date.strftime('%d/%m/%Y')}   #{description.ljust(45)} #{amount.format.rjust(20)}"
+      description
     end
 
     def to_a
