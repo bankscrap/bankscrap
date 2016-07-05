@@ -60,7 +60,7 @@ Note that you only need to install the gem for your selected bank – the main g
 
 ###### BBVA
 
-    $ bankscrap balance YourBank --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD
+    $ bankscrap balance BBVA --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD
 
 ###### ING Direct
 ING needs one more argument: your birthday.
