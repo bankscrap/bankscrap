@@ -1,6 +1,7 @@
-# 💸 Bankscrap 💸 
+# 💸 Bankscrap 💸
 
 [![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
+[![Gem Version](https://badge.fury.io/rb/bankscrap.svg)](https://badge.fury.io/rb/bankscrap)
 [![Build Status](https://travis-ci.org/bankscrap/bankscrap.svg?branch=master)](https://travis-ci.org/bankscrap/bankscrap)
 
 Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
@@ -14,6 +15,8 @@ Feel free to contribute and add your bank if it isn't supported.
 * **ING Direct**: [bankscrap-ing](https://github.com/bankscrap/bankscrap-ing)
 * **Arquia Banca**: [bankscrap-arquia](https://github.com/bankscrap/bankscrap-arquia)
 * **Banc Sabadell** (WIP): [bankscrap-banc-sabadell](https://github.com/bankscrap/bankscrap-banc-sabadell)
+* **Santander** (WIP): [bankscrap-santander](https://github.com/bankscrap/bankscrap-santander)
+* **Openbank** (WIP): [bankscrap-openbank](https://github.com/bankscrap/bankscrap-openbank)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
 
@@ -76,7 +79,7 @@ Replace 01/01/1980 with your actual birthday.
 
 ###### ING Direct
 
-    $ bankscrap transactions ING --credentials=nif:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
+    $ bankscrap transactions ING --credentials=dni:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
 
 #### Transactions with date range
 
@@ -86,7 +89,7 @@ Replace 01/01/1980 with your actual birthday.
 
 By default it will use your first bank account, if you want to fetch transactions for a different account you can use this syntax:
 
-    $ bankscrap transactions YourBank --iban "your_iban" --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD 
+    $ bankscrap transactions YourBank --iban "your_iban" --credentials=user:YOUR_BANK_USER password:YOUR_BANK_PASSWORD
 
 If you don't want to pass your user and password everytime you can define them in your .bash_profile by adding:
 
@@ -94,7 +97,7 @@ If you don't want to pass your user and password everytime you can define them i
     export BANKSCRAP_[BANK_NAME]_PASSWORD=YOUR_BANK_USER
     export BANKSCRAP_[BANK_NAME]_ANY_OTHER_CREDENTIAL=ANY_OTHER_CREDENTIAL
 
-eg: 
+eg:
     export BANKSCRAP_BBVA_NET_CASH_USER=YOUR_BANK_USER
 
 
@@ -129,6 +132,7 @@ bank.accounts
 ```
 
 And get its balance:
+
 ```ruby
 bank.accounts.first.balance
 ```
@@ -148,7 +152,20 @@ account.transactions = account.fetch_transactions(start_date: Date.today - 1.yea
 account.transactions
 ```
 
+### From Ruby code (with IRB, useful when developing)
 
+In the terminal:
+
+```
+irb -I lib/ -r 'bankscrap'
+```
+
+After that, you can use your bank adapter as usual:
+
+```ruby
+require 'bankscrap-ing'
+ing = Bankscrap::ING::Bank.new(nif: YOUR_NIF, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
+```
 
 ## Contributing
 
