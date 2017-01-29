@@ -24,8 +24,7 @@ module Bankscrap
     end
   end
 
-
   self.log = false
   self.debug = false
-  # self.proxy = {host: 'localhost', port: 8888}
+  # self.proxy = { host: 'localhost', port: 8888 }
 end

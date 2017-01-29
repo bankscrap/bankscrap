@@ -8,7 +8,7 @@ describe Bankscrap::Bank do
   end
 
   describe '#initialize' do
-    subject { Bankscrap::Bank.new({user: '1234', password: '1234'}) }
+    subject { Bankscrap::Bank.new(user: '1234', password: '1234') }
 
     it 'should assign the credentials as instance variables' do
       expect(subject.instance_variable_get(:@user)).to eq('1234')
@@ -16,9 +16,9 @@ describe Bankscrap::Bank do
     end
 
     context 'with missing credentials' do
-      subject { Bankscrap::Bank.new({user: '1234'}) }
+      subject { Bankscrap::Bank.new(user: '1234') }
       it 'should raise an error' do
-        expect{subject}.to raise_error(Bankscrap::Bank::MissingCredential)
+        expect { subject }.to raise_error(Bankscrap::Bank::MissingCredential)
       end
     end
 
@@ -49,7 +49,7 @@ describe Bankscrap::Bank do
     end
 
     context 'with a proxy' do
-      before { Bankscrap.proxy = {host: 'localhost', port: 8888} }
+      before { Bankscrap.proxy = { host: 'localhost', port: 8888 } }
 
       it 'uses the proxy' do
         expect_any_instance_of(Mechanize).to receive(:set_proxy).with('localhost', 8888)

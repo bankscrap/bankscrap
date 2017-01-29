@@ -11,9 +11,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      [
-        :id, :name, :balance, :currency, :investment
-      ]
+      %i(id name balance currency investment)
     end
   end
 end

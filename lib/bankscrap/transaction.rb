@@ -2,8 +2,7 @@ module Bankscrap
   class Transaction
     include Utils::Inspectable
 
-    attr_accessor :id, :amount, :description, :effective_date,
-                  :balance, :account
+    attr_accessor :id, :amount, :description, :effective_date, :balance, :account
 
     def initialize(params = {})
       raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
@@ -26,7 +25,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      [ :id, :amount, :effective_date, :description, :balance ]
+      %i(id amount effective_date description balance)
     end
   end
 end

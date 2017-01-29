@@ -1,9 +1,8 @@
 require 'thor'
 require 'active_support/core_ext/string'
-Dir[File.expand_path("../../..", __FILE__) + "/generators/*.rb"].each do |generator|
+Dir[File.expand_path('../../..', __FILE__) + '/generators/*.rb'].each do |generator|
   require generator
 end
-
 
 module Bankscrap
   class CLI < Thor
@@ -59,12 +58,11 @@ module Bankscrap
 
       say "Transactions for: #{account.description} (#{account.iban})", :cyan
       print_transactions_header
-      transactions.each { |t|  print_transaction(t) }
+      transactions.each { |t| print_transaction(t) }
     end
 
-
-    register(Bankscrap::AdapterGenerator, "generate_adapter", "generate_adapter MyBankName", 
-      "generates a template for a new Bankscrap bank adapter")
+    register(Bankscrap::AdapterGenerator, 'generate_adapter', 'generate_adapter MyBankName',
+             'generates a template for a new Bankscrap bank adapter')
 
     private
 
@@ -113,18 +111,18 @@ module Bankscrap
 
     def print_transactions_header
       say "\n"
-      say "DATE".ljust(13)
-      say "DESCRIPTION".ljust(50) + "\s\s\s"
-      say "AMOUNT".rjust(15) + "\s\s\s"
-      say "BALANCE".rjust(15)
-      say "-" * 99 
+      say 'DATE'.ljust(13)
+      say 'DESCRIPTION'.ljust(50) + '   '
+      say 'AMOUNT'.rjust(15) + '   '
+      say 'BALANCE'.rjust(15)
+      say '-' * 99
     end
 
     def print_transaction(transaction)
       color = (transaction.amount > Money.new(0) ? :green : :red)
-      say transaction.effective_date.strftime('%d/%m/%Y') + "\s\s\s"
-      say transaction.description.squish.truncate(50).ljust(50) + "\s\s\s", color
-      say transaction.amount.format.rjust(15) + "\s\s\s", color
+      say transaction.effective_date.strftime('%d/%m/%Y') + '   '
+      say transaction.description.squish.truncate(50).ljust(50) + '   ', color
+      say transaction.amount.format.rjust(15) + '   ', color
       say transaction.balance.format.rjust(15)
     end
   end

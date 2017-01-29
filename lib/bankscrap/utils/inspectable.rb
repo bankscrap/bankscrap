@@ -12,7 +12,7 @@ module Bankscrap
         end.map do |attribute|
           "#{attribute}: #{send(attribute).inspect}"
         end.join ' '
-        "#<#{self.class.name}:#{sprintf('0x%x', object_id)} #{attributes}>"
+        "#<#{self.class.name}:#{format('0x%x', object_id)} #{attributes}>"
       end
     end
   end

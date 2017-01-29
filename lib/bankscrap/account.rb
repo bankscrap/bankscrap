@@ -1,9 +1,9 @@
 module Bankscrap
   class Account
     include Utils::Inspectable
-    
-    attr_accessor :bank, :id, :name, :balance, 
-                  :available_balance, :description, 
+
+    attr_accessor :bank, :id, :name, :balance,
+                  :available_balance, :description,
                   :transactions, :iban, :bic
 
     def initialize(params = {})

@@ -7,22 +7,18 @@ module Bankscrap
                      'like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19'.freeze
     attr_accessor :headers, :accounts, :investments
 
-    REQUIRED_CREDENTIALS = [:user, :password] 
+    REQUIRED_CREDENTIALS = %i(user password).freeze
 
     class MissingCredential < ArgumentError; end
 
     def initialize(credentials = {})
-      # Assign required credentials as env vars. 
+      # Assign required credentials as env vars.
       # If empty, use ENV vars as fallback:
       # BANKSCRAP_MY_BANK_USER, BANKSCRAP_MY_BANK_PASWORD, etc.
       self.class::REQUIRED_CREDENTIALS.each do |field|
         value = credentials.with_indifferent_access[field] || ENV["#{env_vars_prefix}_#{field.upcase}"]
-
-        if value.blank?
-          raise MissingCredential, "Missing credential: '#{field}'"
-        else
-          instance_variable_set("@#{field}", value)
-        end
+        raise MissingCredential, "Missing credential: '#{field}'" if value.blank?
+        instance_variable_set("@#{field}", value)
       end
 
       initialize_http_client
@@ -34,9 +30,7 @@ module Bankscrap
       @accounts = fetch_accounts
 
       # Not all the adapters have support for investments
-      if self.respond_to?(:fetch_investments)
-        @investments = fetch_investments
-      end
+      @investments = fetch_investments if respond_to?(:fetch_investments)
     end
 
     # Interface method placeholders
@@ -112,7 +106,7 @@ module Bankscrap
 
     # Prefix for env vars used to store credentials
     def env_vars_prefix
-      self.class.parent.name.underscore.upcase.gsub('/', '_')
+      self.class.parent.name.underscore.upcase.tr('/', '_')
     end
   end
 end

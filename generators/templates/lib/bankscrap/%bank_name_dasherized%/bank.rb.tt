@@ -13,7 +13,7 @@ module Bankscrap
 
       # TODO: change this for the proper credentials required in your adapter.
       # It can be anything (user, birthday, ID, whatever you need).
-      REQUIRED_CREDENTIALS  = [:user, :password, :any_other_credential]
+      REQUIRED_CREDENTIALS  = %i(user password any_other_credential).freeze
 
       def initialize(credentials = {})
         super do
@@ -21,9 +21,7 @@ module Bankscrap
           # or add custom headers to the HTTP client
 
           # user_agent = SecureRandom.hex(32).upcase + ';Android;LGE;Nexus 5;1080x1776;Android;5.1.1;BMES;4.4;xxhd'
-          # add_headers(
-          #   'User-Agent' => user_agent
-          # )
+          # add_headers('User-Agent' => user_agent)
         end
       end
 
@@ -79,7 +77,7 @@ module Bankscrap
           amount: REPLACE_ME, # Should be a Money object
           description: REPLACE_ME,
           effective_date: REPLACE_ME,
-          currency: REPLACE_ME, 
+          currency: REPLACE_ME,
           balance: REPLACE_ME  # Should be a Money object
         )
       end
