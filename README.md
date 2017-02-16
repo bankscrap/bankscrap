@@ -119,7 +119,7 @@ bbva = Bankscrap::BBVA::Bank.new(user: YOUR_BBVA_USER, password: YOUR_BBVA_PASSW
 
 # ING
 require 'bankscrap-ing'
-ing = Bankscrap::ING::Bank.new(nif: YOUR_NIF, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
+ing = Bankscrap::ING::Bank.new(dni: YOUR_DNI, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
 ```
 
 
@@ -164,7 +164,7 @@ After that, you can use your bank adapter as usual:
 
 ```ruby
 require 'bankscrap-ing'
-ing = Bankscrap::ING::Bank.new(nif: YOUR_NIF, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
+ing = Bankscrap::ING::Bank.new(dni: YOUR_DNI, password: YOUR_ING_PASSWORD, birthday: "dd/mm/yyyy")
 ```
 
 ## Contributing
