@@ -23,12 +23,12 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '~> 2.1'
 
-  spec.add_development_dependency 'bundler', '~> 1.7'
-  spec.add_development_dependency 'rake',    '~> 10.0'
-  spec.add_development_dependency 'rspec',   '~> 3.4.0'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
 
-  spec.add_dependency 'thor',          '~> 0.19'
-  spec.add_dependency 'mechanize',     '~> 2.7.4'
-  spec.add_dependency 'activesupport', '~> 4.1'
-  spec.add_dependency 'money',         '~> 6.5.0'
+  spec.add_dependency 'thor'
+  spec.add_dependency 'mechanize'
+  spec.add_dependency 'activesupport'
+  spec.add_dependency 'money'
 end
