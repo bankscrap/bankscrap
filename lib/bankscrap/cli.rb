@@ -8,8 +8,8 @@ module Bankscrap
   class CLI < Thor
     def self.shared_options
       option :credentials, default: {}, type: :hash
-      option :log,         default: false
-      option :debug,       default: false
+      option :log,         default: false, type: :boolean
+      option :debug,       default: false, type: :boolean
       option :iban,        default: nil
       option :format
       option :output
