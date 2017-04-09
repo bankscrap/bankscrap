@@ -68,7 +68,7 @@ Note that you only need to install the gem for your selected bank – the main g
 ###### ING Direct
 ING needs one more argument: your birthday.
 
-    $ bankscrap balance ING --credentials=user:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
+    $ bankscrap balance ING --credentials=dni:YOUR_DNI password:YOUR_BANK_PASSWORD birthday:01/01/1980
 
 Replace 01/01/1980 with your actual birthday.
 
