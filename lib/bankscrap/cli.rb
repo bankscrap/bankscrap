@@ -119,7 +119,7 @@ module Bankscrap
     end
 
     def print_transaction(transaction)
-      color = (transaction.amount > Money.new(0) ? :green : :red)
+      color = (transaction.amount.to_i > 0 ? :green : :red)
       say transaction.effective_date.strftime('%d/%m/%Y') + '   '
       say transaction.description.squish.truncate(50).ljust(50) + '   ', color
       say transaction.amount.format.rjust(15) + '   ', color
