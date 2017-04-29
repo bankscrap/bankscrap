@@ -16,6 +16,7 @@ Feel free to contribute and add your bank if it isn't supported.
 * **Arquia Banca**: [bankscrap-arquia](https://github.com/bankscrap/bankscrap-arquia)
 * **Openbank**: [bankscrap-openbank](https://github.com/bankscrap/bankscrap-openbank)
 * **Sabadell**: [bankscrap-sabadell](https://github.com/bankscrap/bankscrap-sabadell)
+* **Ibercaja**: [bankscrap-ibercaja](https://github.com/bankscrap/bankscrap-ibercaja)
 * **Santander** (WIP): [bankscrap-santander](https://github.com/bankscrap/bankscrap-santander)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
