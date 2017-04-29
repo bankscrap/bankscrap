@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['javi@diacode.com', 'raulmarcosl@gmail.com']
   spec.summary       = 'Get your bank account details.'
   spec.description   = 'Command line tools to get bank account details from some banks.'
-  spec.homepage      = 'https://github.com/bank-scrap/bank_scrap'
+  spec.homepage      = 'https://github.com/bankscrap/bankscrap'
   spec.license       = 'MIT'
 
   spec.files         = Dir['README.md', 'lib/**/{*,.[a-z]*}', 'generators/**/{*,.[a-z]*}']
