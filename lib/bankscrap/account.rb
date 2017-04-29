@@ -4,7 +4,8 @@ module Bankscrap
 
     attr_accessor :bank, :id, :name, :balance,
                   :available_balance, :description,
-                  :transactions, :iban, :bic
+                  :transactions, :iban, :bic,
+                  :raw_data
 
     def initialize(params = {})
       raise NotMoneyObjectError.new(:balance) unless params[:balance].is_a?(Money)
