@@ -176,6 +176,34 @@ ing = Bankscrap::ING::Bank.new(dni: YOUR_DNI, password: YOUR_ING_PASSWORD, birth
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
+### Start a new Bank Adapter with the generator
+You can use a generator to create the basic template for your new bank adapter.
+1. Install the bankscrap gem (`gem install bankscrap`) if you don't have it already.
+2. Use the name of your *BankName* like: `bankscrap generate_adapter BankName`, you will get:
+
+```
+      create
+      create  bankscrap-my-bank-name.gemspec
+      create  .gitignore
+      create  Gemfile
+      create  LICENSE.txt
+      create  README.md
+      create  Rakefile
+      create  lib/bankscrap-my-bank-name.rb
+      create  lib/bankscrap/my-bank-name/bank.rb
+      create  lib/bankscrap/my-bank-name/version.rb
+
+Great! Now you can start implementing your bank's adapter for Bankscrap.
+
+To get started take a look to:
+/Users/username/bankscrap/bankscrap-my-bank-name/lib/bankscrap/my-bank-name/bank.rb
+
+If you need help you can join our Slack chat room. Click the Slack badge on Github:
+https://github.com/bankscrap/bankscrap
+```
+3. Create a git repository on the newly created directory (`git init`) and start commiting.
+4. Push your repo to github and open an Issue at https://github.com/bankscrap/bankscrap/issues referencing it
+
 ## Thanks
 
 Thanks to Javier Cuevas (@javiercr) for his [BBVA](https://github.com/javiercr/bbva) gem.
