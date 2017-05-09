@@ -1,6 +1,7 @@
 # 💸 Bankscrap 💸
 
-[![](http://188.166.39.57:3000/badge.svg)](http://188.166.39.57:3000)
+[![](https://now-examples-slackin-hiyfeggjfn.now.sh/badge.svg)](https://now-examples-slackin-hiyfeggjfn.now.sh/)
+
 [![Gem Version](https://badge.fury.io/rb/bankscrap.svg)](https://badge.fury.io/rb/bankscrap)
 [![Build Status](https://travis-ci.org/bankscrap/bankscrap.svg?branch=master)](https://travis-ci.org/bankscrap/bankscrap)
 
