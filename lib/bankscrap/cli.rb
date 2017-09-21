@@ -6,6 +6,8 @@ end
 
 module Bankscrap
   class CLI < Thor
+    SPACER = (' ' * 3).freeze
+
     def self.shared_options
       option :credentials, default: {}, type: :hash
       option :log,         default: false, type: :boolean
@@ -112,18 +114,18 @@ module Bankscrap
     def print_transactions_header
       say "\n"
       say 'DATE'.ljust(13)
-      say 'DESCRIPTION'.ljust(50) + '   '
-      say 'AMOUNT'.rjust(15) + '   '
+      say 'DESCRIPTION'.ljust(50) + SPACER
+      say 'AMOUNT'.rjust(15) + SPACER
       say 'BALANCE'.rjust(15)
       say '-' * 99
     end
 
     def print_transaction(transaction)
       color = (transaction.amount.to_i > 0 ? :green : :red)
-      say transaction.effective_date.strftime('%d/%m/%Y') + '   '
-      say transaction.description.squish.truncate(50).ljust(50) + '   ', color
-      say transaction.amount.format.rjust(15) + '   ', color
-      say transaction.balance.format.rjust(15)
+      say transaction.effective_date.strftime('%d/%m/%Y') + SPACER
+      say Utils::CliString.new(transaction.description).squish.truncate(50).ljust(50) + SPACER, color
+      say Utils::CliString.new(transaction.amount.format).rjust(15) + SPACER, color
+      say Utils::CliString.new(transaction.balance.format).rjust(15)
     end
   end
 end

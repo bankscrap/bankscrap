@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mechanize'
   spec.add_dependency 'activesupport'
   spec.add_dependency 'money'
+  spec.add_dependency 'unicode-display_width'
 end
