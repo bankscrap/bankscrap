@@ -18,6 +18,7 @@ Feel free to contribute and add your bank if it isn't supported.
 * **Sabadell**: [bankscrap-sabadell](https://github.com/bankscrap/bankscrap-sabadell)
 * **Ibercaja**: [bankscrap-ibercaja](https://github.com/bankscrap/bankscrap-ibercaja)
 * **Santander** (WIP): [bankscrap-santander](https://github.com/bankscrap/bankscrap-santander)
+* **Shinsei**: [bankscrap-shinsei](https://github.com/bankscrap/bankscrap-shinsei)
 
 Interested in any other bank? Open a new Issue and we'll try to help.
 
