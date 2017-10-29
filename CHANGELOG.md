@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.6
+
+- Added `:description_detail` field to Bankscrap::Transaction to store secondary description for a transaction
+provided by some banks.
+
 ## 2.0.5
 
 - Added `:raw_data` field to Bankscrap::Account class to store all the raw data for an account retrieved by a bank API.
