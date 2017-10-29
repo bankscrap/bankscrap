@@ -4,6 +4,7 @@
 
 - Added `:description_detail` field to Bankscrap::Transaction to store secondary description for a transaction
 provided by some banks.
+- Addded `:id` and `:description_detail` to the CSV exporter.
 
 ## 2.0.5
 
