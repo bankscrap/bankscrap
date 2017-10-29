@@ -15,7 +15,7 @@ module Bankscrap
     end
 
     def to_a
-      [effective_date.strftime('%d/%m/%Y'), description, amount]
+      [:id, effective_date.strftime('%d/%m/%Y'), description, description_details, amount]
     end
 
     def currency
