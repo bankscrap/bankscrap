@@ -2,7 +2,7 @@ module Bankscrap
   class Transaction
     include Utils::Inspectable
 
-    attr_accessor :id, :amount, :description, :effective_date, :operation_date, :balance, :account
+    attr_accessor :id, :amount, :description, :description_detail, :effective_date, :operation_date, :balance, :account
 
     def initialize(params = {})
       raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
@@ -15,7 +15,7 @@ module Bankscrap
     end
 
     def to_a
-      [effective_date.strftime('%d/%m/%Y'), description, amount]
+      [id, effective_date.strftime('%d/%m/%Y'), description, description_detail, amount]
     end
 
     def currency

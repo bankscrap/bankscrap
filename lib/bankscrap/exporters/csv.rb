@@ -3,7 +3,7 @@ require 'csv'
 module BankScrap
   module Exporter
     class Csv
-      HEADERS = %w(Date Description Amount).freeze
+      HEADERS = %w(ID Date Description DescriptionDetail Amount).freeze
 
       def initialize(output = nil)
         @output = output || 'transactions.csv'
