@@ -7,8 +7,8 @@ module Bankscrap
                   :raw_data
 
     def initialize(params = {})
-      raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
-      raise NotMoneyObjectError.new(:avaliable) unless params[:avaliable].is_a?(Money)
+      raise NotMoneyObjectError, :amount unless params[:amount].is_a?(Money)
+      raise NotMoneyObjectError, :avaliable unless params[:avaliable].is_a?(Money)
 
       params.each { |key, value| send "#{key}=", value }
     end
@@ -28,7 +28,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      %i(id name description pan amount avaliable is_credit)
+      %i[id name description pan amount avaliable is_credit]
     end
   end
 end

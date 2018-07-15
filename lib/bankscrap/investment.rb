@@ -11,7 +11,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      %i(id name balance currency investment)
+      %i[id name balance currency investment]
     end
   end
 end

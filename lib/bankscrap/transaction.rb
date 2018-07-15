@@ -5,7 +5,7 @@ module Bankscrap
     attr_accessor :id, :amount, :description, :description_detail, :effective_date, :operation_date, :balance, :account
 
     def initialize(params = {})
-      raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
+      raise NotMoneyObjectError, :amount unless params[:amount].is_a?(Money)
 
       params.each { |key, value| send "#{key}=", value }
     end
@@ -25,7 +25,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      %i(id amount effective_date description balance)
+      %i[id amount effective_date description balance]
     end
   end
 end

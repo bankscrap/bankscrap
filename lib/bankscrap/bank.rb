@@ -7,7 +7,7 @@ module Bankscrap
                      'like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19'.freeze
     attr_accessor :headers, :accounts, :cards, :loans, :investments
 
-    REQUIRED_CREDENTIALS = %i(user password).freeze
+    REQUIRED_CREDENTIALS = %i[user password].freeze
 
     class MissingCredential < ArgumentError; end
 

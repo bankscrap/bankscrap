@@ -1,4 +1,4 @@
-# coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'bankscrap/version'
@@ -27,11 +27,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
 
-  spec.add_dependency 'thor'
-  spec.add_dependency 'mechanize'
   spec.add_dependency 'activesupport'
-  spec.add_dependency 'money'
-  spec.add_dependency 'unicode-display_width'
-  spec.add_dependency 'json'
   spec.add_dependency 'colorize'
+  spec.add_dependency 'json'
+  spec.add_dependency 'mechanize'
+  spec.add_dependency 'money'
+  spec.add_dependency 'thor'
+  spec.add_dependency 'unicode-display_width'
 end

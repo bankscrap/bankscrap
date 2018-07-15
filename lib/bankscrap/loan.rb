@@ -7,7 +7,7 @@ module Bankscrap
                   :raw_data
 
     def initialize(params = {})
-      raise NotMoneyObjectError.new(:amount) unless params[:amount].is_a?(Money)
+      raise NotMoneyObjectError, :amount unless params[:amount].is_a?(Money)
 
       params.each { |key, value| send "#{key}=", value }
     end
@@ -27,7 +27,7 @@ module Bankscrap
     private
 
     def inspect_attributes
-      %i(id name description amount)
+      %i[id name description amount]
     end
   end
 end

@@ -46,7 +46,7 @@ module Bankscrap
         export_to_file(nil, @client.cards, options[:format], options[:output])
       else
         @client.cards.each do |card|
-           STDERR.puts "Card: #{card.name} #{card.description} #{card.amount.format}".green
+          STDERR.puts "Card: #{card.name} #{card.description} #{card.amount.format}".green
         end
       end
     end
@@ -122,9 +122,9 @@ module Bankscrap
       require "bankscrap-#{bank_name.underscore.dasherize}"
       Object.const_get("Bankscrap::#{bank_name}::Bank")
     rescue LoadError
-      raise ArgumentError.new('Invalid bank name.')
+      raise ArgumentError, 'Invalid bank name.'
     rescue NameError
-      raise ArgumentError.new("Invalid bank name. Did you mean \"#{bank_name.upcase}\"?")
+      raise ArgumentError, "Invalid bank name. Did you mean \"#{bank_name.upcase}\"?"
     end
 
     def parse_date(string)
@@ -152,12 +152,12 @@ module Bankscrap
     end
 
     def print_transactions_header
-       STDERR.puts "\n"
-       STDERR.puts 'DATE'.ljust(13)
-       STDERR.puts 'DESCRIPTION'.ljust(50) + SPACER
-       STDERR.puts 'AMOUNT'.rjust(15) + SPACER
-       STDERR.puts 'BALANCE'.rjust(15)
-       STDERR.puts '-' * 99
+      STDERR.puts "\n"
+      STDERR.puts 'DATE'.ljust(13)
+      STDERR.puts 'DESCRIPTION'.ljust(50) + SPACER
+      STDERR.puts 'AMOUNT'.rjust(15) + SPACER
+      STDERR.puts 'BALANCE'.rjust(15)
+      STDERR.puts '-' * 99
     end
 
     def print_transaction(transaction)

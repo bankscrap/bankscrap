@@ -6,7 +6,8 @@ describe Bankscrap::Account do
       subject do
         Bankscrap::Account.new(
           balance: Money.new(1000, 'EUR'),
-          available_balance: Money.new(1000, 'EUR'))
+          available_balance: Money.new(1000, 'EUR')
+        )
       end
 
       it 'raise an exception' do

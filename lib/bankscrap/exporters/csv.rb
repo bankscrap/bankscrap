@@ -10,21 +10,21 @@ module BankScrap
       end
 
       def get_filename(data, output)
-        unless output
-          if check_array_class(data, Bankscrap::Transaction)
-            return 'transactions.json'
-          elsif check_array_class(data, Bankscrap::Account)
-            return 'accounts.json'
-          elsif check_array_class(data, Bankscrap::Loan)
-            return 'loans.json'
-          elsif check_array_class(data, Bankscrap::Card)
-            return 'cards.json'
+        if output
+          if output == '-'
+            '/dev/stdout'
+          else
+            output
           end
         else
-          if output == '-'
-            return '/dev/stdout'
-          else
-            return output
+          if check_array_class(data, Bankscrap::Transaction)
+            'transactions.json'
+          elsif check_array_class(data, Bankscrap::Account)
+            'accounts.json'
+          elsif check_array_class(data, Bankscrap::Loan)
+            'loans.json'
+          elsif check_array_class(data, Bankscrap::Card)
+            'cards.json'
           end
         end
       end
@@ -37,25 +37,25 @@ module BankScrap
         output = get_filename(data, output)
         if check_array_class(data, Bankscrap::Transaction)
           CSV.open(output, 'wb') do |csv|
-            csv << %w(Date Description Amount)
+            csv << %w[Date Description Amount]
             data.each { |line| csv << line.to_a }
           end
           STDERR.puts "Transactions for: #{@account.description} (#{@account.iban}) exported to #{output}".cyan
         elsif check_array_class(data, Bankscrap::Account)
           CSV.open(output, 'wb') do |csv|
-            csv << %w(Id Iban Name Description Bank Balance)
+            csv << %w[Id Iban Name Description Bank Balance]
             data.each { |line| csv << line.to_a }
           end
           STDERR.puts "Accounts exported to #{output}".cyan
         elsif check_array_class(data, Bankscrap::Loan)
           CSV.open(output, 'wb') do |csv|
-            csv << %w(Id Name Description Amount)
+            csv << %w[Id Name Description Amount]
             data.each { |line| csv << line.to_a }
           end
           STDERR.puts "Accounts exported to #{output}".cyan
         elsif check_array_class(data, Bankscrap::Card)
           CSV.open(output, 'wb') do |csv|
-            csv << %w(Id Name Description Pan Amount Avaliable Is_credit)
+            csv << %w[Id Name Description Pan Amount Avaliable Is_credit]
             data.each { |line| csv << line.to_a }
           end
           STDERR.puts "Accounts exported to #{output}".cyan
