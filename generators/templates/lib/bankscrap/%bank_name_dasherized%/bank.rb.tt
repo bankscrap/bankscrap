@@ -10,6 +10,8 @@ module Bankscrap
       # LOGIN_ENDPOINT        = '/login'.freeze
       # ACCOUNTS_ENDPOINT     = '/accounts'.freeze
       # TRANSACTIONS_ENDPOINT = '/transactions'.freeze
+      # CARDS_ENDPOINT        = '/cards'.freeze
+      # LOANS_ENDPOINT        = '/loans'.freeze
 
       # TODO: change this for the proper credentials required in your adapter.
       # It can be anything (user, birthday, ID, whatever you need).
@@ -33,6 +35,26 @@ module Bankscrap
         # response = post(BASE_ENDPOINT + ACCOUNTS_ENDPOINT, fields: {}.to_json)
         # json = JSON.parse(response)
         # json['accounts'].map { |data| build_account(data) }
+      end
+
+      # Fetch all the loans for the given user
+      #
+      # Should returns an array of Bankscrap::Loan objects
+      def fetch_loans
+        # Example if the API expects a JSON POST request
+        # response = post(BASE_ENDPOINT + LOANS_ENDPOINT, fields: {}.to_json)
+        # json = JSON.parse(response)
+        # json['accounts'].map { |data| build_loan(data) }
+      end
+
+      # Fetch all the credit cards for the given user
+      #
+      # Should returns an array of Bankscrap::Card objects
+      def fetch_cards
+        # Example if the API expects a JSON POST request
+        # response = post(BASE_ENDPOINT + CARDS_ENDPOINT, fields: {}.to_json)
+        # json = JSON.parse(response)
+        # json['accounts'].map { |data| build_card(data) }
       end
 
       # Fetch transactions for the given account.
@@ -65,6 +87,30 @@ module Bankscrap
           balance: REPLACE_ME,
           iban: REPLACE_ME,
           description: REPLACE_ME
+        )
+      end
+
+      # Build a loan object from API data
+      def build_loan(data)
+        Loan.new(
+          bank: self,
+          id: REPLACE_ME,
+          name: REPLACE_ME,
+          description: REPLACE_ME,
+          amount: REPLACE_ME,
+          is_mortage: REPLACE_ME
+        )
+      end
+
+      # Build a card object from API data
+      def build_card(data)
+        Card.new(
+          bank: self,
+          id: REPLACE_ME,
+          name: REPLACE_ME,
+          description: REPLACE_ME,
+          amount: REPLACE_ME,
+          is_credit: REPLACE_ME
         )
       end
 

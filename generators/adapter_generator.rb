@@ -12,14 +12,14 @@ module Bankscrap
       self.destination_root = File.expand_path('.', gem_name)
       directory '.'
 
-      say ''
-      say "Great! Now you can start implementing your bank's adapter for Bankscrap.", :yellow
-      say ''
-      say 'To get started take a look to:', :yellow
-      say "#{destination_root}/lib/bankscrap/#{bank_name_dasherized}/bank.rb", :yellow
-      say ''
-      say 'If you need help you can join our Slack chat room. Click the Slack badge on Github:', :yellow
-      say 'https://github.com/bankscrap/bankscrap', :yellow
+      STDERR.puts ''
+      STDERR.puts "Great! Now you can start implementing your bank's adapter for Bankscrap.".yellow
+      STDERR.puts ''
+      STDERR.puts 'To get started take a look to:', :yellow
+      STDERR.puts "#{destination_root}/lib/bankscrap/#{bank_name_dasherized}/bank.rb".yellow
+      STDERR.puts ''
+      STDERR.puts 'If you need help you can join our Slack chat room. Click the Slack badge on Github:'.yellow
+      STDERR.puts 'https://github.com/bankscrap/bankscrap'.yellow
     end
 
     protected

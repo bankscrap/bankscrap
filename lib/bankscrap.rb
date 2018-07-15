@@ -10,7 +10,10 @@ require_relative 'bankscrap/bank'
 require_relative 'bankscrap/account'
 require_relative 'bankscrap/investment'
 require_relative 'bankscrap/transaction'
+require_relative 'bankscrap/card'
+require_relative 'bankscrap/loan'
 require_relative 'bankscrap/exporters/csv'
+require_relative 'bankscrap/exporters/json'
 
 module Bankscrap
   class << self

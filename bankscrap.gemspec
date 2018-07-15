@@ -32,4 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport'
   spec.add_dependency 'money'
   spec.add_dependency 'unicode-display_width'
+  spec.add_dependency 'json'
+  spec.add_dependency 'colorize'
 end

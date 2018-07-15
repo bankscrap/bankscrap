@@ -5,7 +5,7 @@ module Bankscrap
   class Bank
     WEB_USER_AGENT = 'Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, ' \
                      'like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19'.freeze
-    attr_accessor :headers, :accounts, :investments
+    attr_accessor :headers, :accounts, :cards, :loans, :investments
 
     REQUIRED_CREDENTIALS = %i(user password).freeze
 
@@ -28,6 +28,8 @@ module Bankscrap
 
       login
       @accounts = fetch_accounts
+      @loans = fetch_loans
+      @cards = fetch_cards
 
       # Not all the adapters have support for investments
       @investments = fetch_investments if respond_to?(:fetch_investments)
@@ -41,6 +43,14 @@ module Bankscrap
 
     def fetch_accounts
       raise "#{self.class} should implement a fetch_account method"
+    end
+
+    def fetch_cards
+      raise "#{self.class} should implement a fetch_card method"
+    end
+
+    def fetch_loans
+      raise "#{self.class} should implement a fetch_loan method"
     end
 
     def fetch_transactions_for(*)

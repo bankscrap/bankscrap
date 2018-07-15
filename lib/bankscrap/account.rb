@@ -26,6 +26,14 @@ module Bankscrap
       balance.try(:currency)
     end
 
+    def to_s
+      description
+    end
+
+    def to_a
+      [id, iban, name, description, balance]
+    end
+
     private
 
     def inspect_attributes
