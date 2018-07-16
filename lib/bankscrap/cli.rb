@@ -141,14 +141,13 @@ module Bankscrap
     def exporter(account, format)
       case format.downcase
       when 'csv'
-        exporter = BankScrap::Exporter::Csv
+        BankScrap::Exporter::Csv.new(account)
       when 'json'
-        exporter = BankScrap::Exporter::Json
+        BankScrap::Exporter::Json.new(account)
       else
         STDERR.puts 'Sorry, file format not supported.'.red
         exit
       end
-      exporter.new(account)
     end
 
     def print_transactions_header
