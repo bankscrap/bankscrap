@@ -28,11 +28,11 @@ module Bankscrap
 
       login
       @accounts = fetch_accounts
-      @loans = fetch_loans
-      @cards = fetch_cards
 
-      # Not all the adapters have support for investments
+      # Not all the adapters have support for investments, loans or cards
       @investments = fetch_investments if respond_to?(:fetch_investments)
+      @loans = fetch_loans if respond_to?(:fetch_loans)
+      @cards = fetch_cards if respond_to?(:fetch_cards)
     end
 
     # Interface method placeholders
@@ -43,14 +43,6 @@ module Bankscrap
 
     def fetch_accounts
       raise "#{self.class} should implement a fetch_account method"
-    end
-
-    def fetch_cards
-      raise "#{self.class} should implement a fetch_card method"
-    end
-
-    def fetch_loans
-      raise "#{self.class} should implement a fetch_loan method"
     end
 
     def fetch_transactions_for(*)

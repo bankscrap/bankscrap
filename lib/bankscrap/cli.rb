@@ -105,10 +105,10 @@ module Bankscrap
     private
 
     def assign_shared_options
-      @credentials  = options[:credentials]
-      @iban         = options[:iban]
-      @log          = options[:log]
-      @debug        = options[:debug]
+      @credentials = options[:credentials]
+      @iban        = options[:iban]
+      @log         = options[:log]
+      @debug       = options[:debug]
     end
 
     def initialize_client_for(bank_name)
