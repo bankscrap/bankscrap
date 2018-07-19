@@ -27,10 +27,10 @@ module Bankscrap
         export_to_file(nil, @client.accounts, options[:format], options[:output])
       else
         @client.accounts.each do |account|
-          STDERR.puts "Account: #{account.description} (#{account.iban})".cyan
-          STDERR.puts "Balance: #{account.balance.format}".green
+          say "Account: #{account.description} (#{account.iban})", :cyan
+          say "Balance: #{account.balance.format}", :green
           if account.balance != account.available_balance
-            STDERR.puts "Available: #{account.available_balance.format}".yellow
+            say "Available: #{account.available_balance.format}", :yellow
           end
         end
       end
@@ -46,7 +46,7 @@ module Bankscrap
         export_to_file(nil, @client.cards, options[:format], options[:output])
       else
         @client.cards.each do |card|
-          STDERR.puts "Card: #{card.name} #{card.description} #{card.amount.format}".green
+          say "Card: #{card.name} #{card.description} #{card.amount.format}", :green
         end
       end
     end
@@ -61,7 +61,7 @@ module Bankscrap
         export_to_file(nil, @client.loans, options[:format], options[:output])
       else
         @client.loans.each do |loan|
-          STDERR.puts "Loan: #{loan.name} #{loan.description} #{loan.amount.format}".green
+          say "Loan: #{loan.name} #{loan.description} #{loan.amount.format}", :green
         end
       end
     end
@@ -81,7 +81,7 @@ module Bankscrap
 
       if start_date && end_date
         if start_date > end_date
-          STDERR.puts 'From date must be lower than to date'.red
+          say 'From date must be lower than to date', :red
           exit
         end
 
@@ -93,7 +93,7 @@ module Bankscrap
       if options[:format]
         export_to_file(account, transactions, options[:format], options[:output])
       else
-        STDERR.puts "Transactions for: #{account.description} (#{account.iban})".cyan
+        say "Transactions for: #{account.description} (#{account.iban})", :cyan
         print_transactions_header
         transactions.each { |t| print_transaction(t) }
       end
@@ -130,7 +130,7 @@ module Bankscrap
     def parse_date(string)
       Date.strptime(string, '%d-%m-%Y')
     rescue ArgumentError
-      STDERR.puts 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)'.red
+      say 'Invalid date format. Correct format d-m-Y (eg: 31-12-2016)', :red
       exit
     end
 
@@ -145,26 +145,26 @@ module Bankscrap
       when 'json'
         BankScrap::Exporter::Json.new(account)
       else
-        STDERR.puts 'Sorry, file format not supported.'.red
+        say 'Sorry, file format not supported.', :red
         exit
       end
     end
 
     def print_transactions_header
-      STDERR.puts "\n"
-      STDERR.puts 'DATE'.ljust(13)
-      STDERR.puts 'DESCRIPTION'.ljust(50) + SPACER
-      STDERR.puts 'AMOUNT'.rjust(15) + SPACER
-      STDERR.puts 'BALANCE'.rjust(15)
-      STDERR.puts '-' * 99
+      say "\n"
+      say 'DATE'.ljust(13)
+      say 'DESCRIPTION'.ljust(50) + SPACER
+      say 'AMOUNT'.rjust(15) + SPACER
+      say 'BALANCE'.rjust(15)
+      say '-' * 99
     end
 
     def print_transaction(transaction)
       color = (transaction.amount.to_i > 0 ? :green : :red)
-      STDERR.puts transaction.effective_date.strftime('%d/%m/%Y') + SPACER
-      STDERR.puts Utils::CliString.new(transaction.description).squish.truncate(50).ljust(50) + SPACER.colorize(color)
-      STDERR.puts Utils::CliString.new(transaction.amount.format).rjust(15) + SPACER.colorize(color)
-      STDERR.puts Utils::CliString.new(transaction.balance.format).rjust(15)
+      say transaction.effective_date.strftime('%d/%m/%Y') + SPACER
+      say Utils::CliString.new(transaction.description).squish.truncate(50).ljust(50) + SPACER, color
+      say Utils::CliString.new(transaction.amount.format).rjust(15) + SPACER, color
+      say Utils::CliString.new(transaction.balance.format).rjust(15)
     end
   end
 end

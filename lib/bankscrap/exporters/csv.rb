@@ -3,8 +3,9 @@ require 'thor'
 
 module BankScrap
   module Exporter
-    # Csv exporter
-    class Csv
+    class Csv < Thor::Group
+      include Thor::Actions
+
       def initialize(account)
         @account = account
       end
@@ -40,25 +41,25 @@ module BankScrap
             csv << %w[Date Description Amount]
             data.each { |line| csv << line.to_a }
           end
-          STDERR.puts "Transactions for: #{@account.description} (#{@account.iban}) exported to #{output}".cyan
+          say "Transactions for: #{@account.description} (#{@account.iban}) exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Account)
           CSV.open(output, 'wb') do |csv|
             csv << %w[Id Iban Name Description Bank Balance]
             data.each { |line| csv << line.to_a }
           end
-          STDERR.puts "Accounts exported to #{output}".cyan
+          say "Accounts exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Loan)
           CSV.open(output, 'wb') do |csv|
             csv << %w[Id Name Description Amount]
             data.each { |line| csv << line.to_a }
           end
-          STDERR.puts "Accounts exported to #{output}".cyan
+          say "Accounts exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Card)
           CSV.open(output, 'wb') do |csv|
             csv << %w[Id Name Description Pan Amount Avaliable Is_credit]
             data.each { |line| csv << line.to_a }
           end
-          STDERR.puts "Accounts exported to #{output}".cyan
+          say "Accounts exported to #{output}", :cyan
         end
       end
     end

@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
 
   spec.add_dependency 'activesupport'
-  spec.add_dependency 'colorize'
   spec.add_dependency 'json'
   spec.add_dependency 'mechanize'
   spec.add_dependency 'money'

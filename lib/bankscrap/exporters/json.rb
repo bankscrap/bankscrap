@@ -1,10 +1,11 @@
 require 'json'
-require 'colorize'
+require 'thor'
 
 module BankScrap
   module Exporter
-    # Json exporter
-    class Json
+    class Json < Thor::Group
+      include Thor::Actions
+
       def initialize(account)
         @account = account
       end
@@ -75,13 +76,13 @@ module BankScrap
           f.write(JSON.pretty_generate(json_hash) + "\n")
         end
         if check_array_class(data, Bankscrap::Transaction)
-          STDERR.puts "Transactions for: #{@account.description} (#{@account.iban}) exported to #{output}".cyan
+          say "Transactions for: #{@account.description} (#{@account.iban}) exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Account)
-          STDERR.puts "Accounts exported to #{output}".cyan
+          say "Accounts exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Loan)
-          STDERR.puts "Loans exported to #{output}".cyan
+          say "Loans exported to #{output}", :cyan
         elsif check_array_class(data, Bankscrap::Card)
-          STDERR.puts "Cards exported to #{output}".cyan
+          say "Cards exported to #{output}", :cyan
         end
       end
     end
