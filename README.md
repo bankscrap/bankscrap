@@ -1,12 +1,13 @@
 # 💸 Bankscrap 💸
 
-[![Slack](https://now-examples-slackin-hiyfeggjfn.now.sh/badge.svg)](https://now-examples-slackin-hiyfeggjfn.now.sh/)
 [![Gem Version](https://badge.fury.io/rb/bankscrap.svg)](https://badge.fury.io/rb/bankscrap)
 [![Build Status](https://travis-ci.org/bankscrap/bankscrap.svg?branch=master)](https://travis-ci.org/bankscrap/bankscrap)
 
 Ruby gem to extract account balance and transactions from banks. You can use it either as command line tool or as a library.
 
 Feel free to contribute and add your bank if it isn't supported.
+
+Contact: bankscrap@protonmail.com.
 
 ## Supported banks
 
